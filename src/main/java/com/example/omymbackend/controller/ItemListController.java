@@ -46,7 +46,7 @@ public class ItemListController {
     public ResponseEntity<Object>
     getItemListByArea(@PathVariable("area") String area) {
 //        Area로 상품 조회 하는 서비스 호출 ( Optional 떼내기 : .get() )
-        ItemList itemList = itemListService.findByArea(area).get();
+        List<ItemList> itemList = itemListService.findByArea(area);
 
         try {
             if (itemList != null) {
@@ -59,6 +59,54 @@ public class ItemListController {
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
 //            프론트에 에러 메세지 전송
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/itemlist/itemlist/price")
+    public ResponseEntity<Object> findPriceASC() {
+
+//        모든 상품 가격낮은순 조회 서비스 호출
+        List<ItemList> itemLists = itemListService.findPrice();
+
+        try {
+//            Vue에 객체 + 성공메세지 전송
+            return new ResponseEntity<Object>(itemLists, HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+//            Vue에 에러메세지 전송
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/itemlist/itemlist/view-count")
+    public ResponseEntity<Object> findViewCountDESC() {
+
+//        모든 상품 조회많은순 조회 서비스 호출
+        List<ItemList> itemLists = itemListService.findViewCount();
+
+        try {
+//            Vue에 객체 + 성공메세지 전송
+            return new ResponseEntity<Object>(itemLists, HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+//            Vue에 에러메세지 전송
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/itemlist/itemlist/review-count")
+    public ResponseEntity<Object> findReviewCountDESC() {
+
+//        모든 상품 리뷰많은순 조회 서비스 호출
+        List<ItemList> itemLists = itemListService.findReviewCount();
+
+        try {
+//            Vue에 객체 + 성공메세지 전송
+            return new ResponseEntity<Object>(itemLists, HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+//            Vue에 에러메세지 전송
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
         }
     }

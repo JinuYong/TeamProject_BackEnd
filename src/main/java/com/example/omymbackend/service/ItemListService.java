@@ -14,4 +14,15 @@ public interface ItemListService {
 
 //    Area 로 조회하는 메소드 ( 결과 : 1건 )
     public List<ItemList> findByArea(String area);
+
+//    Price 가격낮은순 조회 메소드 ( 결과 : 여러건 )
+    public List<ItemList> findPrice();
+
+//    viewCount 조회순 조회 메소드 ( 결과 : 여러건 )
+    List<ItemList> findViewCount();
+
+//    reviewCount 리뷰많은순 조회 메소드 ( 결과 : 여러건 )
+    List<ItemList> findReviewCount();
+
+
 }

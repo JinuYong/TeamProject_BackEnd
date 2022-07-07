@@ -26,5 +26,6 @@ public class ItemList {
     private int userIdx; // 유저번호 (sql 타입 = NUMBER)
     private String thumnail; // 썸네일 (sql 타입 = VARCHAR2)
     private String area; // 지역 카테고리 (sql 타입 = VARCHAR2)
-
+    private int viewCount; // 상품조회 카운트 (sql 타입 = NUMBER)
+    private int reviewCount; // 리뷰조회 카운트 (sql 타입 = NUMBER)
 }

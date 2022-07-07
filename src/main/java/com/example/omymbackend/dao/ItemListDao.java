@@ -16,14 +16,14 @@ public interface ItemListDao {
 
 //    area 로 상품 조회 메소드
     List<ItemList> findByArea(String area);
-//
-////    조회순 정렬
-//    List<ItemList> findViewArea(criteria criteria);
-//
-////    리뷰순 정렬
-//    List<ItemList> findReviewArea(criteria criteria);
-//
-////    가격낮은순 정렬
-//    List<ItemList> findPrice(criteria criteria);
+
+//    price 가격 조회순 정렬
+    List<ItemList> findPrice();
+
+//    viewCount 조회순 정렬
+    List<ItemList> findViewCount();
+
+//  reviewCount 조회순 정렬
+    List<ItemList> findReviewCount();
 
 }

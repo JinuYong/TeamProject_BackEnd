@@ -9,11 +9,62 @@
                CONTENT,
                AREA,
                PRICE,
-               DISCOUNT_PER FROM ITEMS
-                WHERE DELETE_YN = 'N'
+               DISCOUNT_PER
+        FROM ITEMS
+        WHERE DELETE_YN = 'N'
     </select>
-    
-    <select id=""
+
+    <select id="findByArea" resultType="com.example.omymbackend.model.ItemList"
+            parameterType="String">
+        SELECT IDX,
+               TITLE,
+               CONTENT,
+               AREA,
+               PRICE,
+               DISCOUNT_PER
+        FROM ITEMS
+        WHERE DELETE_YN = 'N'
+        AND AREA = #{area}
+    </select>
+
+    <select id="findPrice" resultType="com.example.omymbackend.model.ItemList">
+        SELECT IDX,
+               TITLE,
+               CONTENT,
+               AREA,
+               PRICE,
+               DISCOUNT_PER
+        FROM ITEMS
+        WHERE DELETE_YN = 'N'
+        ORDER BY PRICE ASC
+    </select>
+
+    <select id="findViewCount" resultType="com.example.omymbackend.model.ItemList">
+        SELECT IDX,
+               TITLE,
+               CONTENT,
+               AREA,
+               PRICE,
+               DISCOUNT_PER,
+               VIEW_COUNT
+        FROM ITEMS
+        WHERE DELETE_YN = 'N'
+        ORDER BY VIEW_COUNT DESC
+    </select>
+
+    <select id="findReviewCount" resultType="com.example.omymbackend.model.ItemList">
+        SELECT IDX,
+               TITLE,
+               CONTENT,
+               AREA,
+               PRICE,
+               DISCOUNT_PER,
+               VIEW_COUNT,
+               REVIEW_COUNT
+        FROM ITEMS
+        WHERE DELETE_YN = 'N'
+        ORDER BY REVIEW_COUNT DESC
+    </select>
 
 </mapper>
 
