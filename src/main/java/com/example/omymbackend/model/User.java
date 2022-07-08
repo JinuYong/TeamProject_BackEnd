@@ -3,6 +3,7 @@ package com.example.omymbackend.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * packageName : com.example.omymbackend.model

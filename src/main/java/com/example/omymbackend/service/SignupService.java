@@ -14,5 +14,7 @@ import com.example.omymbackend.model.User;
  * 2022-07-06         ds          최초 생성
  */
 public interface SignupService {
-    public boolean registerUser(User user);
+    boolean registerUser(User user);
+
+    boolean getById(String id);
 }

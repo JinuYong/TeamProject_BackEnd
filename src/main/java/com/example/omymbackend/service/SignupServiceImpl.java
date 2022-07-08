@@ -30,4 +30,10 @@ public class SignupServiceImpl implements SignupService{
         log.info("인서트 결과  = " + boolResult);
         return boolResult;
     }
+    @Override
+    public boolean getById(String id) {
+        int result = userDAO.getById(id);
+        boolean boolResult = (result == 0 ? true : false);
+        return boolResult;
+    }
 }

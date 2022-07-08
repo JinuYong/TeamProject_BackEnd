@@ -17,4 +17,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserDAO {
     int postUser(User user);
+
+    int getById(String id);
 }

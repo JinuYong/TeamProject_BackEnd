@@ -23,12 +23,18 @@
             #{email},
             #{name},
             #{phone},
-            null,
-            null,
+            'ROLE_USER',
+            sysdate,
             'N',
             #{postcode},
             #{address},
             #{detailAddress}
             )
     </insert>
+
+    <select id = "getById" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM USERS
+        WHERE ID = #{id}
+    </select>
 </mapper >
