@@ -4,6 +4,7 @@ import com.example.omymbackend.model.User;
 import com.example.omymbackend.service.SignupService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
  * -----------------------------------------------------------
  * 2022-07-06         ds          최초 생성
  */
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
 @RequestMapping("/api")
 @RestController
@@ -32,20 +33,20 @@ public class SignUpController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup/register")
-    public void signup(@RequestParam("data")Object data) {
-        log.info("data = " + data);
-//        log.info(user.toString());
-//        try {
-//            boolean result = signupService.registerUser(user);
-//            if (!result) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        }
-//        catch (Exception e) {
-//            log.error(e.getMessage());
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
+    public ResponseEntity signup(User user, @RequestParam("profileFile")MultipartFile profileFile) {
+        log.info("data = " + user.toString() + "profile = " + profileFile);
+        log.info(user.toString());
+        try {
+            boolean result = signupService.registerUser(user);
+            if (!result) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @PostMapping("/signup")
     public ResponseEntity idDuplicateConfirm(@RequestBody User user) {
