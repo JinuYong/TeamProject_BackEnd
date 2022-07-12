@@ -16,5 +16,7 @@ import com.example.omymbackend.model.User;
 public interface SignupService {
     boolean registerUser(User user);
 
-    boolean getById(String id);
+    boolean compareId(String id);
+
+    User getById(String id);
 }

@@ -31,9 +31,18 @@ public class SignupServiceImpl implements SignupService{
         return boolResult;
     }
     @Override
-    public boolean getById(String id) {
-        int result = userDAO.getById(id);
-        boolean boolResult = (result == 0 ? true : false);
+    public boolean compareId(String id) {
+        User result = userDAO.getById(id);
+        boolean boolResult;
+        if (result == null) {
+            boolResult = true;
+        } else boolResult = false;
         return boolResult;
+    }
+
+    @Override
+    public User getById(String id) {
+        User result = userDAO.getById(id);
+        return result;
     }
 }

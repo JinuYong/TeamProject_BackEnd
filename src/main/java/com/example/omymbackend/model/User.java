@@ -29,7 +29,7 @@ public class User {
     private String address;
     private String detailAddress;
     private String roles;
-    private String profile;
+    private String profileUrl;
     private String deleteYn;
     private String registerTime;
 }
