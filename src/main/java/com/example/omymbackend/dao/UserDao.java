@@ -23,4 +23,16 @@ public interface UserDao {
 
     // user 정보 불러오기
     Optional<User> findByUserIdx(Long userIdx);
+
+    //    idx로 유저 가져오기 메소드
+    User findByIdx(String sidx);
+
+    //    name으로 유저 가져오기 메소드
+    User findByName(String name);
+
+    //    회원정보(user) insert 메소드
+    int insertUser(User user);
+
+    //    회원정보(user) delete 메소드
+    int deleteUser(String name);
 }
