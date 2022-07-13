@@ -52,4 +52,13 @@
         FROM USERS
         WHERE ID = #{id}
     </select>
+
+    <update id = "updatePassword" parameterType="String">
+        UPDATE
+            USERS
+        SET
+            PASSWORD = #{password}
+        WHERE
+            ID = #{id}
+    </update>
 </mapper >

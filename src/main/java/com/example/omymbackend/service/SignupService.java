@@ -19,4 +19,6 @@ public interface SignupService {
     boolean compareId(String id);
 
     User getById(String id);
+
+    boolean passwordChange(String id, String password);
 }

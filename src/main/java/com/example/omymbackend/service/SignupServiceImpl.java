@@ -45,4 +45,11 @@ public class SignupServiceImpl implements SignupService{
         User result = userDAO.getById(id);
         return result;
     }
+
+    @Override
+    public boolean passwordChange(String id, String password) {
+        int result = userDAO.updatePassword(id, password);
+        boolean boolResult = (result > 0 ? true : false);
+        return boolResult;
+    }
 }

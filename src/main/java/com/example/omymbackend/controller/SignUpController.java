@@ -44,25 +44,27 @@ public class SignUpController {
     public ResponseEntity signup(User user, @RequestParam("profileFile")MultipartFile profileFile) throws IOException {
         log.info(user.toString());
 
-        // 파일
-        String originalFilename = profileFile.getOriginalFilename();
-        //확장자(EXT 추출하기)
-        int pos = originalFilename.lastIndexOf(".");
-        String ext = originalFilename.substring(pos + 1);
-        //UUID(랜덤한 중복될 가능성이 거의 없는 ID값) 생성 및 파일이름 부여
-        String uuid = UUID.randomUUID().toString();
-        //랜덤값 + 확장자
-        String file_name = uuid + "." + ext;
-        //파일저장 경로
-        //fileDir => application.properties 에서 주입받은 값
-        String file_path = uploadPath + file_name;
-        //파일 저장 펑션 실행
-        profileFile.transferTo(new File(file_path));
-
-        System.out.println(file_name+ " / " +  file_path + " / " +originalFilename);
         if (profileFile.isEmpty()) {
             user.setProfileUrl("resources/user_profile/default.png");
-        } else user.setProfileUrl("resources/user_profile/" + file_name);
+        } else {
+            // 파일
+            String originalFilename = profileFile.getOriginalFilename();
+            //확장자(EXT 추출하기)
+            int pos = originalFilename.lastIndexOf(".");
+            String ext = originalFilename.substring(pos + 1);
+            //UUID(랜덤한 중복될 가능성이 거의 없는 ID값) 생성 및 파일이름 부여
+            String uuid = UUID.randomUUID().toString();
+            //랜덤값 + 확장자
+            String file_name = uuid + "." + ext;
+            //파일저장 경로
+            //fileDir => application.properties 에서 주입받은 값
+            String file_path = uploadPath + file_name;
+            //파일 저장 펑션 실행
+            profileFile.transferTo(new File(file_path));
+            user.setProfileUrl("resources/user_profile/" + file_name);
+
+            System.out.println(file_name+ " / " +  file_path + " / " +originalFilename);
+        }
         // 회원정보 db삽입
         try {
             boolean result = signupService.registerUser(user);
@@ -108,6 +110,26 @@ public class SignUpController {
         catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/myinform/changepw")
+    public ResponseEntity passwordChange(@RequestBody User user) {
+        String userId = user.getId();
+        String password = user.getPassword();
+        log.info(userId+"아이디" + password + "비밀번호");
+        try {
+            boolean result = signupService.passwordChange(userId, password);
+            if (result) {
+                return ResponseEntity.ok(result);
+            }
+            else {
+                return ResponseEntity.badRequest().body(result);
+            }
+        }
+        catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 

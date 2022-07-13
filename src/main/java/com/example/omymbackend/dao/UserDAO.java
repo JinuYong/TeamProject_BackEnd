@@ -19,4 +19,6 @@ public interface UserDAO {
     int postUser(User user);
 
     User getById(String id);
+
+    int updatePassword(String id, String password);
 }
