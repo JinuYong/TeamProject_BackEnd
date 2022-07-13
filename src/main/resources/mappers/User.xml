@@ -21,6 +21,52 @@
         WHERE DELETE_YN = 'N'
         AND IDX = #{idx}
     </select>
+
+
+    <select id="findByIdx" parameterType="String"
+            resultType="User">
+        SELECT
+            IDX
+             ,ID
+             ,EMAIL
+             ,PASSWORD
+             ,ROLES
+        FROM
+            TB_USER_JWT_YIH
+        WHERE IDX=#{idx}
+    </select>
+
+    <select id="findByName" parameterType="String"
+            resultType="User">
+        SELECT
+            IDX
+             ,ID
+             ,EMAIL
+             ,PASSWORD
+             ,ROLES
+        FROM
+            TB_USER_JWT_YIH
+        WHERE ID=#{id}
+    </select>
+    <!--    int insertUser(User user);-->
+    <insert id="insertUser" parameterType="User">
+        INSERT INTO TB_USER_JWT_YIH
+        (
+            IDX
+        , ID
+        , EMAIL
+        , PASSWORD
+        , ROLES
+        )
+        VALUES
+            (
+                SQ_USER_YIH.NEXTVAL
+            , #{id}
+            , #{email}
+            , #{password}
+            , #{roles}
+            )
+    </insert>
 </mapper>
 
 

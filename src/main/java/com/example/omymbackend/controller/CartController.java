@@ -26,7 +26,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("http://localhost:3000")
+//@CrossOrigin("http://localhost:3000")
 public class CartController {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
