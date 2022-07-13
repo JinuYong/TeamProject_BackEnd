@@ -10,6 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * fileName : WebConfig
  * author : ds
  * date : 2022-07-12
+ * packageName : com.example.dongsungsi.controller
+ * fileName : WebConfig
+ * author : Seok
+ * date : 2022-06-14
  * description :
  * ===========================================================
  * DATE            AUTHOR             NOTE
