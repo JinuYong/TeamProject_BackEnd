@@ -1,26 +1,28 @@
 package com.example.omymbackend.dao;
 
-import com.example.omymbackend.model.Cart;
-import com.example.omymbackend.model.User;
+import com.example.omymbackend.model.Item;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
  * packageName : com.example.omymbackend.dao
- * fileName : UserDao
+ * fileName : ItemDao
  * author : gim-yeong-geun
- * date : 2022/07/07
+ * date : 2022/07/11
  * description :
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2022/07/07         gim-yeong-geun          최초 생성
+ * 2022/07/11         gim-yeong-geun          최초 생성
  */
 @Mapper
-public interface UserDao {
+public interface ItemDao {
 
-    // user 정보 불러오기
-    Optional<User> findByUserIdx(Long userIdx);
+    // idx로 item 찾기
+    Optional<Item> findItemByIdx(Long idx);
+
+    // area로 item 찾기
+    List<Item> findItemByArea(String area);
 }

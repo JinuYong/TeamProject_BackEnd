@@ -1,8 +1,8 @@
-package com.example.omymbackend.paging;
+package com.example.omymbackend.dao;
 
 /**
- * packageName : com.example.omymbackend.paging
- * fileName : criteria
+ * packageName : com.example.omymbackend.dao
+ * fileName : loginDao
  * author : macbook
  * date : 6/27/22
  * description :
@@ -11,5 +11,5 @@ package com.example.omymbackend.paging;
  * -----------------------------------------------------------
  * 6/27/22         macbook          최초 생성
  */
-public class criteria {
+public interface loginDao {
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.omymbackend.dao.ReviewDao">
+    <!--    // 아이템 idx로 리뷰를 불러옴-->
+    <!--    List<Review> findByItemIdx(Long itemIdx);-->
+
+    <select id="findByItemIdx" parameterType="long"
+            resultType="com.example.omymbackend.model.Review">
+        SELECT a.IDX,
+               a.CONTENT,
+               a.USER_IDX,
+               a.RATING,
+               a.INSERT_TIME,
+               a.ITEM_IDX,
+               a.DELETE_YN,
+               a.IMG,
+               b.ID
+        FROM REVIEW a
+        INNER JOIN USERS b
+        ON a.USER_IDX = b.IDX
+        WHERE a.DELETE_YN = 'N'
+        AND a.ITEM_IDX = #{itemIdx}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+

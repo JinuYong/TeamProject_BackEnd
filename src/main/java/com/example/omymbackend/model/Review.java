@@ -4,31 +4,33 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Date;
+
 /**
  * packageName : com.example.omymbackend.model
- * fileName : BoardReply
- * author : macbook
- * date : 7/12/22
+ * fileName : review
+ * author : gim-yeong-geun
+ * date : 2022/07/12
  * description :
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 7/12/22         macbook          최초 생성
+ * 2022/07/12         gim-yeong-geun          최초 생성
  */
-
 @Getter
 @Setter
 @ToString
-public class BoardReply {
+public class Review {
+
     private Long idx;
-    private Long userIdx;
     private String content;
-    private String insertTime;
-    private String deleteTime;
-    private Long boardIdx;
+    private Long userIdx;
+    private int rating;
+    private Date insertTime;
+    private Long itemIdx;
+    private String deleteYn;
+    private String img;
 
-    // join
+    //join
     private String id;
-    private Long profile;
-
 }

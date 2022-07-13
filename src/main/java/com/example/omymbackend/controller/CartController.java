@@ -26,7 +26,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-//@CrossOrigin("http://localhost:3000")
+@CrossOrigin("http://localhost:3000/")
 public class CartController {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -82,6 +82,22 @@ public class CartController {
             List<Cart> updateCart = cartService.update(cart);
             return new ResponseEntity<>(updateCart, HttpStatus.OK);
         }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/cart")
+    public ResponseEntity<Object> insertCartItem(
+                @RequestBody Cart cart){
+        logger.info("insertCart : cart {} : ", cart);
+
+        // save 리턴값 Optional<Cart> => insertCartItem().get() 객체를 꺼냄
+        Cart insertCartItem = cartService.insertCartItem(cart).get();
+
+        try{
+            return new ResponseEntity<>(insertCartItem, HttpStatus.OK);
+        }catch (Exception e){
+            logger.info(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

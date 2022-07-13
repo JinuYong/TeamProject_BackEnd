@@ -24,6 +24,17 @@
         WHERE a.USER_IDX = #{userIdx}
     </select>
 
+    <select id="findCart" parameterType="long"
+            resultType="com.example.omymbackend.model.Cart">
+        SELECT
+              IDX
+             ,USER_IDX
+             ,ITEMS_IDX
+             ,QUNTYTY
+        FROM CART
+        WHERE IDX = #{idx}
+    </select>
+
 <!--&lt;!&ndash;    // 유저의 카트 아이템 값 수정하기&ndash;&gt;-->
 <!--&lt;!&ndash;    long updateUserItem(long idx, int quntyty);&ndash;&gt;-->
     <update id="updateUserItem" parameterType="com.example.omymbackend.model.Cart">
@@ -40,6 +51,28 @@
         DELETE FROM CART
         WHERE IDX = #{idx}
     </delete>
+
+<!--    long insertCartItem(Cart cart);-->
+    <insert id="insertCartItem" parameterType="com.example.omymbackend.model.Cart">
+        INSERT INTO CART
+            (
+             IDX,
+             USER_IDX,
+             ITEMS_IDX,
+             QUNTYTY
+            )
+        VALUES
+            (
+                SQ_CART.NEXTVAL
+                ,#{userIdx}
+                ,#{itemsIdx}
+                ,#{quntyty}
+            )
+        <selectKey keyProperty="idx" resultType="long"
+                   order="AFTER">
+            SELECT SQ_CART.CURRVAL FROM DUAL
+        </selectKey>
+    </insert>
 
 </mapper>
 
