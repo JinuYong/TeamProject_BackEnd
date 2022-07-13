@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.omymbackend.dao.UserDAO">
+    <insert id = "postUser" parameterType="com.example.omymbackend.model.User">
+        INSERT INTO users (
+            IDX,
+            ID,
+            PASSWORD,
+            EMAIL,
+            NAME,
+            PHONE,
+            PROFILEURL,
+            POSTCODE,
+            ADDRESS,
+            DETAIL_ADDRESS,
+            ROLES,
+            REGISTER_TIME,
+            DELETE_YN
+        ) VALUES (
+            SQ_USERS.NEXTVAL,
+            #{id},
+            #{password},
+            #{email},
+            #{name},
+            #{phone},
+            #{profileUrl},
+            #{postcode},
+            #{address},
+            #{detailAddress},
+            'ROLE_USER',
+            sysdate,
+            'N'
+        )
+    </insert>
+
+    <select id="getById" parameterType="String" resultType="com.example.omymbackend.model.User">
+        SELECT
+            IDX,
+            ID,
+            PASSWORD,
+            EMAIL,
+            NAME,
+            PHONE,
+            PROFILEURL,
+            POSTCODE,
+            ADDRESS,
+            DETAIL_ADDRESS,
+            ROLES,
+            REGISTER_TIME,
+            DELETE_YN
+        FROM USERS
+        WHERE ID = #{id}
+    </select>
+
+    <update id = "updatePassword" parameterType="String">
+        UPDATE
+            USERS
+        SET
+            PASSWORD = #{password}
+        WHERE
+            ID = #{id}
+    </update>
+</mapper >

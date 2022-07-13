@@ -6,21 +6,21 @@ import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * packageName : com.example.omymbackend.model
  * fileName : User
- * author : gim-yeong-geun
- * date : 2022/07/07
+ * author : ds
+ * date : 2022-07-06
  * description :
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2022/07/07         gim-yeong-geun          최초 생성
+ * 2022-07-06         ds          최초 생성
  */
+
 @Getter
 @Setter
 @ToString
@@ -38,11 +38,13 @@ public class User implements UserDetails {
     private String email;
     private String name;
     private String phone;
+    private String postcode;
     private String address;
-    private String roles;
-    private String profile;
-    private int postcode;
     private String detailAddress;
+    private String roles;
+    private String profileUrl;
+    private String deleteYn;
+    private String registerTime;
 
 //    TODO:
     @Override
