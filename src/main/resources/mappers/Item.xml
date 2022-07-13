@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.omymbackend.dao.ItemDao">
+
+<!--    Optional<Item> findItemByIdx(Long idx);-->
+    <select id="findItemByIdx" parameterType="Long"
+            resultType="com.example.omymbackend.model.Item">
+        SELECT
+             IDX
+            ,TITLE
+            ,CONTENT
+            ,INSERT_TIME
+            ,UPDATE_TIME
+            ,DELETE_TIME
+            ,DELETE_YN
+            ,PRICE
+            ,DISCOUNT_PER
+            ,USER_COUNT
+            ,ITEM_VIEW
+            ,ITEM_DATE
+            ,ITEM_COUNT
+            ,DEPART_DATE
+            ,USER_IDX
+            ,THUMNAIL
+            ,AREA
+            ,VIEW_COUNT
+            ,REVIEW_COUNT
+        FROM
+            ITEMS
+        WHERE IDX = #{idx}
+        AND DELETE_YN = 'N'
+    </select>
+
+    <select id="findItemByArea" parameterType="String"
+            resultType="com.example.omymbackend.model.Item">
+        SELECT
+              IDX
+             ,TITLE
+             ,CONTENT
+             ,INSERT_TIME
+             ,UPDATE_TIME
+             ,DELETE_TIME
+             ,DELETE_YN
+             ,PRICE
+             ,DISCOUNT_PER
+             ,USER_COUNT
+             ,ITEM_VIEW
+             ,ITEM_DATE
+             ,ITEM_COUNT
+             ,DEPART_DATE
+             ,USER_IDX
+             ,THUMNAIL
+             ,AREA
+             ,VIEW_COUNT
+             ,REVIEW_COUNT
+        FROM
+            ITEMS
+        WHERE AREA = #{area}
+          AND DELETE_YN = 'N'
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+

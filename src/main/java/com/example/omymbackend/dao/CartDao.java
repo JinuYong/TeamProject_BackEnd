@@ -23,10 +23,16 @@ public interface CartDao {
     // 유저의 카트 아이템 값 불러오기
     List<Cart> findUserCart(Long userIdx);
 
+    // 카트 idx 로 불러오기
+    Optional<Cart> findCart(Long idx);
+
     // 카트 아이템 값 수정하기
     // 카트에서 수량을 선택하고 결제 페이지로 넘어갈때 저장
     long updateUserItem(Cart cart);
 
     // 유저의 카트 아이템 내역 삭제하기
     long deleteByCartItem(long userIdx);
+
+    // 유저의 카트에 아이템 추가
+    long insertCartItem(Cart cart);
 }

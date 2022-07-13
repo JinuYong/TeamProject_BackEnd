@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.omymbackend.dao.UserDao2">
+
+<!--    // user 정보 불러오기-->
+<!--    Optional<User> findUserIdx(Long userIdx);-->
+    <select id="findByUserIdx" parameterType="Long"
+            resultType="com.example.omymbackend.model.User2">
+        SELECT
+             IDX
+            ,ID
+            ,EMAIL
+            ,NAME
+            ,PHONE
+            ,ADDRESS
+            ,ROLES
+            ,POSTCODE
+            ,DETAIL_ADDRESS
+        FROM USERS
+        WHERE DELETE_YN = 'N'
+        AND IDX = #{idx}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
