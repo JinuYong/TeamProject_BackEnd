@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2"
 
     //	Todo: 보안 설정 모듈 추가
     implementation 'org.springframework.boot:spring-boot-starter-security:2.6.7'
