@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.omymbackend.dao.CartDao">
+
+<!--    // 유저의 카트 아이템 값 불러오기-->
+<!--    List<Cart> findUserCart(long userIdx);-->
+    <select id="findUserCart" parameterType="long"
+            resultType="com.example.omymbackend.model.Cart">
+        SELECT
+            a.IDX,
+            a.QUNTYTY,
+            a.USER_IDX,
+            a.ITEMS_IDX,
+            b.TITLE,
+            b.CONTENT,
+            b.PRICE,
+            b.DISCOUNT_PER,
+            b.ITEM_DATE,
+            b.AREA
+        FROM CART a
+        INNER JOIN ITEMS b
+        ON a.ITEMS_IDX = b.IDX
+        WHERE a.USER_IDX = #{userIdx}
+    </select>
+
+<!--&lt;!&ndash;    // 유저의 카트 아이템 값 수정하기&ndash;&gt;-->
+<!--&lt;!&ndash;    long updateUserItem(long idx, int quntyty);&ndash;&gt;-->
+    <update id="updateUserItem" parameterType="com.example.omymbackend.model.Cart">
+        UPDATE CART
+        SET
+            QUNTYTY = #{quntyty}
+        WHERE
+            IDX = #{idx}
+    </update>
+
+<!--    // 유저의 카트 아이템 내역 삭제하기-->
+<!--    long deleteByCartItem(long idx);-->
+    <delete id="deleteByCartItem" parameterType="long">
+        DELETE FROM CART
+        WHERE IDX = #{idx}
+    </delete>
+
+</mapper>
+
+
+
+
+
+
+
+
