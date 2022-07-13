@@ -1,5 +1,8 @@
 package com.example.omymbackend.configuration;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import com.example.omymbackend.security.JwtAuthenticationFilter;
 import com.example.omymbackend.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +19,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /**
  * packageName : com.example.taegyungsi.configuration
  * fileName : SecurityConfig
- * author : hwan
- * date : 2022/06/20
+
+ * author : ds
+ * date : 2022-06-20
  * description :
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2022/06/20         hwan          최초 생성
- */
+
 // @EnableWebSecurity : 보안 설정(JWT, SpringSecurity 등) 사용시 아래 어노테이션을 적용
 @EnableWebSecurity
 // @RequiredArgsConstructor : (Rombok) final, @NotNull 붙은 변수를 가진 생성자
@@ -74,3 +77,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 UsernamePasswordAuthenticationFilter.class);
     }
 }
+
