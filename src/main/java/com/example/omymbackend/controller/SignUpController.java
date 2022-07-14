@@ -67,6 +67,7 @@ public class SignUpController {
         }
         // 회원정보 db삽입
         try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             boolean result = signupService.registerUser(user);
             if (!result) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -116,10 +117,10 @@ public class SignUpController {
     @PostMapping("/myinform/changepw")
     public ResponseEntity passwordChange(@RequestBody User user) {
         String userId = user.getId();
-        String password = user.getPassword();
-        log.info(userId+"아이디" + password + "비밀번호");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        log.info(userId+"아이디" + user.getPassword() + "비밀번호");
         try {
-            boolean result = signupService.passwordChange(userId, password);
+            boolean result = signupService.passwordChange(user);
             if (result) {
                 return ResponseEntity.ok(result);
             }

@@ -20,5 +20,5 @@ public interface SignupService {
 
     User getById(String id);
 
-    boolean passwordChange(String id, String password);
+    boolean passwordChange(User user);
 }

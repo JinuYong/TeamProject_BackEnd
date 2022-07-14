@@ -1,9 +1,7 @@
 package com.example.omymbackend.dao;
 
-import com.example.omymbackend.model.Cart;
 import com.example.omymbackend.model.User;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
@@ -35,4 +33,10 @@ public interface UserDao {
 
     //    회원정보(user) delete 메소드
     int deleteUser(String name);
+
+    int postUser(User user);
+
+    User getById(String id);
+
+    int updatePassword(String id, String password);
 }

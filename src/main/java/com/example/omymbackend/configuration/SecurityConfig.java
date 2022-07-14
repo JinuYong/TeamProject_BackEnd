@@ -26,6 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
+ */
 
 // @EnableWebSecurity : 보안 설정(JWT, SpringSecurity 등) 사용시 아래 어노테이션을 적용
 @EnableWebSecurity

@@ -1,6 +1,6 @@
 package com.example.omymbackend.service;
 
-import com.example.omymbackend.dao.UserDAO;
+import com.example.omymbackend.dao.UserDao;
 import com.example.omymbackend.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SignupServiceImpl implements SignupService{
     @Autowired
-    UserDAO userDAO;
+    UserDao userDAO;
 
     @Override
     public boolean registerUser(User user) {
@@ -47,8 +47,9 @@ public class SignupServiceImpl implements SignupService{
     }
 
     @Override
-    public boolean passwordChange(String id, String password) {
-        int result = userDAO.updatePassword(id, password);
+    public boolean passwordChange(User user) {
+//        log.info("서비스 id = " + id + ", password = " + password);
+        int result = userDAO.updatePassword(user.getId(), user.getPassword());
         boolean boolResult = (result > 0 ? true : false);
         return boolResult;
     }
