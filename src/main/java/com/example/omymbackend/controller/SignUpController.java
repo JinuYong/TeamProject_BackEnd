@@ -26,8 +26,8 @@ import java.util.UUID;
  * -----------------------------------------------------------
  * 2022-07-06         ds          최초 생성
  */
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
+@CrossOrigin(value = "*", allowedHeaders = "*")
 @RequestMapping("/api")
 @RestController
 public class SignUpController {
@@ -40,12 +40,27 @@ public class SignUpController {
     @Value("${uploadPath}")
     private String uploadPath;
 
-    @PostMapping("/signup/register")
-    public ResponseEntity signup(User user, @RequestParam("profileFile")MultipartFile profileFile) throws IOException {
-        log.info(user.toString());
+    @PostMapping("/signup")
+    public ResponseEntity idDuplicateConfirm(@RequestBody User user) {
+        log.info("id = " + user.getId());
+        try {
+            boolean result = signupService.compareId(user.getId());
+            log.info("결과 = " + result);
+            return ResponseEntity.ok(result);
+        }
+        catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
-        if (profileFile.isEmpty()) {
-            user.setProfileUrl("resources/user_profile/default.png");
+    @PostMapping("/signup/register")
+    public ResponseEntity signup(User user, @RequestParam(required = false, value = "profileFile")MultipartFile profileFile) throws IOException {
+        log.info(user.toString());
+        log.info("profileFile = " + profileFile);
+
+        if (profileFile == null) {
+            user.setProfileUrl("default.png");
         } else {
             // 파일
             String originalFilename = profileFile.getOriginalFilename();
@@ -61,7 +76,7 @@ public class SignUpController {
             String file_path = uploadPath + file_name;
             //파일 저장 펑션 실행
             profileFile.transferTo(new File(file_path));
-            user.setProfileUrl("resources/user_profile/" + file_name);
+            user.setProfileUrl(file_name);
 
             System.out.println(file_name+ " / " +  file_path + " / " +originalFilename);
         }
@@ -77,20 +92,6 @@ public class SignUpController {
         catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PostMapping("/signup")
-    public ResponseEntity idDuplicateConfirm(@RequestBody User user) {
-        log.info("id = " + user.getId());
-        try {
-            boolean result = signupService.compareId(user.getId());
-            log.info("결과 = " + result);
-            return ResponseEntity.ok(result);
-        }
-        catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -133,5 +134,8 @@ public class SignUpController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+//    @PutMapping("/myinform/updateinform")
+//    public ResponseEntity putUserInform()
 
 }
