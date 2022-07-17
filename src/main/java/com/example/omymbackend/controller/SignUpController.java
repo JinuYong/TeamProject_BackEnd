@@ -57,33 +57,11 @@ public class SignUpController {
     @PostMapping("/signup/register")
     public ResponseEntity signup(User user, @RequestParam(required = false, value = "profileFile")MultipartFile profileFile) throws IOException {
         log.info(user.toString());
-        log.info("profileFile = " + profileFile);
 
-        if (profileFile == null) {
-            user.setProfileUrl("default.png");
-        } else {
-            // 파일
-            String originalFilename = profileFile.getOriginalFilename();
-            //확장자(EXT 추출하기)
-            int pos = originalFilename.lastIndexOf(".");
-            String ext = originalFilename.substring(pos + 1);
-            //UUID(랜덤한 중복될 가능성이 거의 없는 ID값) 생성 및 파일이름 부여
-            String uuid = UUID.randomUUID().toString();
-            //랜덤값 + 확장자
-            String file_name = uuid + "." + ext;
-            //파일저장 경로
-            //fileDir => application.properties 에서 주입받은 값
-            String file_path = uploadPath + file_name;
-            //파일 저장 펑션 실행
-            profileFile.transferTo(new File(file_path));
-            user.setProfileUrl(file_name);
-
-            System.out.println(file_name+ " / " +  file_path + " / " +originalFilename);
-        }
         // 회원정보 db삽입
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            boolean result = signupService.registerUser(user);
+            boolean result = signupService.registerUser(user, profileFile);
             if (!result) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -135,7 +113,21 @@ public class SignUpController {
         }
     }
 
-//    @PutMapping("/myinform/updateinform")
-//    public ResponseEntity putUserInform()
+    @PostMapping("/myinform/updateinform")
+    public ResponseEntity putUserInform(User user, @RequestParam(required = false, value = "profileFile")MultipartFile profileFile) {
+        log.info(user.toString());
+        System.out.println(profileFile);
+
+        try {
+            boolean result = signupService.updateUserInform(user, profileFile);
+            log.info("result = {}", result);
+            if (!result) {
+                return ResponseEntity.badRequest().body(result);
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
 }

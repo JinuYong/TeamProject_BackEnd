@@ -67,8 +67,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests() // 화면을 접근할 수 있는 권한 설정 체크
 //                아래 주소로 접근하면 모두 허용
-                .antMatchers("/api/**").permitAll()
 //                나머지 화면에 ROLE_USER 권한이 있는 사람만 접근
+                .antMatchers("/api/**").permitAll()
+                .antMatchers("/image/**").permitAll()
+                .mvcMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .anyRequest().hasRole("USER")
 
 //                3) 토큰을 필터로 끼워넣기

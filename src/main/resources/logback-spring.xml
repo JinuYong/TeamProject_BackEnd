@@ -20,7 +20,7 @@
 	<logger name="jdbc.resultsettable" level="INFO" appender-ref="console-infolog" />
 
 	<!-- Root Logger -->
-	<root level="off">
+	<root level="error">
 		<appender-ref ref="console" />
 	</root>
 </configuration>

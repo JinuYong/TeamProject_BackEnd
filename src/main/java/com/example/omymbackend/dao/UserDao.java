@@ -38,5 +38,7 @@ public interface UserDao {
 
     User getById(String id);
 
-    int updatePassword(String id, String password);
+    int updatePassword(User user);
+
+    int updateUserInform(User user);
 }

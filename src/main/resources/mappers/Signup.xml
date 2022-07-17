@@ -61,4 +61,19 @@
         WHERE
             ID = #{id}
     </update>
+
+    <update id="updateUserInform" parameterType="User">
+        UPDATE
+            USERS
+        SET
+            EMAIL = #{email},
+            NAME = #{name},
+            PHONE = #{phone},
+            POSTCODE = #{postcode},
+            ADDRESS = #{address},
+            DETAIL_ADDRESS = #{detailAddress},
+            PROFILEURL = #{profileUrl}
+        WHERE
+            ID = #{id}
+    </update>
 </mapper >
