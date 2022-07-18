@@ -26,4 +26,6 @@ public interface SignupService {
     boolean passwordChange(User user);
 
     boolean updateUserInform(User user, MultipartFile profileFile)throws IOException;
+
+    User FindUserId(String name, String email);
 }

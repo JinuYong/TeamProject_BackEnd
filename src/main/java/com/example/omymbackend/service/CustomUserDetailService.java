@@ -1,7 +1,9 @@
 package com.example.omymbackend.service;
 
-import com.example.omymbackend.dao.UserDao;
-import com.example.omymbackend.model.User;
+import com.example.omymbackend.dao.SignInDao;
+import com.example.omymbackend.model.SignIn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,9 +25,10 @@ import org.springframework.stereotype.Service;
 // @Service : springboot에 객체로 생성 ( ex) @Component, @Mapper )
 @Service
 public class CustomUserDetailService implements UserDetailsService {
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    UserDao userDao; // 객체 정의 (null => 스프링객체 받기)
+    SignInDao userDao; // 객체 정의 (null => 스프링객체 받기)
 
     @Override
     public UserDetails loadUserByUsername(String sidx)
@@ -33,14 +36,17 @@ public class CustomUserDetailService implements UserDetailsService {
         return userDao.findByIdx(sidx);
     }
 
-    public UserDetails findByName(String name) {
-        return userDao.findByName(name);
+    public SignIn findByName(String name) {
+        logger.info("username in detailService = {}", name);
+        SignIn result = userDao.findByName(name);
+        logger.info("service result = {}", result);
+        return result;
     }
 
 //    유저객체가 null이면 insert하고(유저생성),
 //    아니면 -1 (개발자가 체크하기위해 임의로 주는) 반환하는 메소드
-    public int signInUser(User user) {
-        if(userDao.findByName(user.getId()) == null) {
+    public int signInUser(SignIn user) {
+        if(userDao.findByName(user.getUsername()) == null) {
             return userDao.insertUser(user);
         } else {
             return -1;

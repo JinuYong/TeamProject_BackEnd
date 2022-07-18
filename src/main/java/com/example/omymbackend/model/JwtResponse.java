@@ -25,15 +25,15 @@ public class JwtResponse {
     private String token;
     private String type = "Bearer"; // JWT(자바웹토큰)를 보낼때 사용될 타입
     private Long idx;
-    private String id;
+    private String username;
     private String email;
     private List<String> roles; // 역할 ( ROLE_ADMIN, ROLE_USER 등등 )
 
 //    type을 제외한 모든 매개변수가 있는 생성자 정의
-    public JwtResponse(String token, Long idx, String id, String email, List<String> roles) {
+    public JwtResponse(String token, Long idx, String username, String email, List<String> roles) {
         this.token = token;
         this.idx = idx;
-        this.id = id;
+        this.username = username;
         this.email = email;
         this.roles = roles;
     }

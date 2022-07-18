@@ -1,7 +1,7 @@
 package com.example.omymbackend.service;
 
-import com.example.omymbackend.dao.UserDao;
-import com.example.omymbackend.model.User;
+import com.example.omymbackend.dao.SignInDao;
+import com.example.omymbackend.model.SignIn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +21,10 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
-    UserDao userDao;
+    SignInDao userDao;
 
     @Override
-    public Optional<User> findByUserIdx(Long userIdx){
+    public Optional<SignIn> findByUserIdx(Long userIdx){
 
         return userDao.findByUserIdx(userIdx);
     }

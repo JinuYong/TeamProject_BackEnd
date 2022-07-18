@@ -126,4 +126,9 @@ public class SignupServiceImpl implements SignupService{
         log.info("업데이트 결과 = {}", boolResult);
         return boolResult;
     }
+
+    public User FindUserId(String name, String email) {
+        User user = userDAO.findUserId(name, email);
+        return user;
+    }
 }
