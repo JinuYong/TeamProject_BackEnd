@@ -112,4 +112,19 @@
         AND EMAIL = #{email}
         AND DELETE_YN = 'N'
     </select>
+
+    <select id="findUserPassword" parameterType="String" resultType="User">
+        SELECT
+            IDX,
+            ID,
+            PASSWORD,
+            EMAIL,
+            NAME
+        FROM
+            USERS
+        WHERE
+            ID = #{id}
+        AND EMAIL = #{email}
+        AND DELETE_YN = 'N'
+    </select>
 </mapper >

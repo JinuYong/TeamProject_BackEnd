@@ -27,4 +27,6 @@ public interface UserDao {
     int updateUserInform(User user);
 
     User findUserId(String name, String email);
+
+    User findUserPassword(String id, String email);
 }
