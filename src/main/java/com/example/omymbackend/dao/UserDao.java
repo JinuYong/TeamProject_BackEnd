@@ -29,4 +29,10 @@ public interface UserDao {
     User findUserId(String name, String email);
 
     User findUserPassword(String id, String email);
+    
+    int postUser(User user);
+
+    User getById(String id);
+
+    int updatePassword(String id, String password);
 }
