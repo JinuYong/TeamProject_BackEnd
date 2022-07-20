@@ -1,7 +1,7 @@
 package com.example.omymbackend.service;
 
-import com.example.omymbackend.dao.BoardReplyDao;
-import com.example.omymbackend.model.BoardReply;
+import com.example.omymbackend.dao.InformReplyDao;
+import com.example.omymbackend.model.InformReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,44 +22,44 @@ import java.util.List;
  */
 
 @Service
-public class BoardReplyServiceImpl implements BoardReplyService {
+public class InformReplyServiceImpl implements InformReplyService {
 
     @Autowired
-    private BoardReplyDao boardReplyDao;
+    private InformReplyDao informReplyDao;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public List<BoardReply> findReplyByIdx(Long idx) {
-        return boardReplyDao.findReplyByIdx(idx);
+    public List<InformReply> findReplyByIdx(Long idx) {
+        return informReplyDao.findReplyByIdx(idx);
     }
 
     @Override
-    public List<BoardReply> save(BoardReply boardReply) {
+    public List<InformReply> save(InformReply informReply) {
         // db 시퀀스 번호 저장을 위한 변수
         long seqIdx = 0;
 
-        logger.info("boardReply {}", boardReply);
+        logger.info("informReply {}", informReply);
 
-        if (boardReply.getIdx() == null) {
-            boardReplyDao.insertBoardReply(boardReply);
+        if (informReply.getIdx() == null) {
+            informReplyDao.insertInformReply(informReply);
         }
         else {
-            boardReplyDao.updateBoardReply(boardReply);
+            informReplyDao.updateInformReply(informReply);
         }
 
         // insert 문 후에는 board 의 id 속성에 값이 저장됨(<selectkey>)
-        seqIdx = boardReply.getIdx();
+        seqIdx = informReply.getIdx();
         logger.info("seqIdx {}", seqIdx);
 
-        return boardReplyDao.findReplyByIdx(seqIdx);
+        return informReplyDao.findReplyByIdx(seqIdx);
     }
 
     @Override
-    public boolean deleteBoardReply(long idx) {
+    public boolean deleteInformReply(long idx) {
         int queryResult = 0;
 
-        queryResult = boardReplyDao.deleteBoardReply(idx);
+        queryResult = informReplyDao.deleteInformReply(idx);
 
         return (queryResult >= 1) ? true : false;
     }

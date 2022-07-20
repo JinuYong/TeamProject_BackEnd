@@ -2,9 +2,12 @@ package com.example.omymbackend.service;
 
 import com.example.omymbackend.model.Board;
 import com.example.omymbackend.paging.Criteria;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * packageName : com.example.omymbackend.service
@@ -39,4 +42,18 @@ public interface BoardService {
     boolean deleteByIdx(Long idx);
 
     boolean deleteAll();
+
+    int viewCount(Long idx);
+
+    int viewReplyCount(Long idx);
+
+    // 이미지 업로드
+    int store(String boardTitle, String content, Long userIdx, MultipartFile file) throws IOException;
+
+    Optional<Board> getFile(String fileId);
+
+//    todo: 추가
+    Optional<Board> getDetailFile(String idx);
+
+    Stream<Board> getAllFile();
 }

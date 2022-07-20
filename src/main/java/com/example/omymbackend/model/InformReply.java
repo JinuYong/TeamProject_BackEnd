@@ -19,13 +19,13 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BoardReply {
+public class InformReply {
     private Long idx;
     private Long userIdx;
     private String content;
     private String insertTime;
     private String deleteTime;
-    private Long boardIdx;
+    private Long informIdx;
 
     // join
     private String id;
