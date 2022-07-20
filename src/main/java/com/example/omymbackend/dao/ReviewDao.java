@@ -3,6 +3,7 @@ package com.example.omymbackend.dao;
 import com.example.omymbackend.model.Review;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -36,6 +37,8 @@ public interface ReviewDao {
 //    int deleteComplain(Long no);
 ////    전체 회원 삭제 메소드
 //    int deleteAll();
+List<Review> findByItemIdx(Long itemIdx);
+
 }
 
 

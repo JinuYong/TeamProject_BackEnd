@@ -30,6 +30,9 @@ public class Criteria {
 
     private String title; // 검색 제목
 
+    // item 검색 키워드
+    private String keyword;
+
     private String content;
 
     private String targetPage;

@@ -76,7 +76,23 @@
 <!--            DELETE_YN = 'Y'-->
 <!--           ,DELETE_TIME = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')-->
 <!--    </update>-->
-
+    <select id="findByItemIdx" parameterType="long"
+            resultType="com.example.omymbackend.model.Review">
+        SELECT a.IDX,
+               a.CONTENT,
+               a.USER_IDX,
+               a.RATING,
+               a.INSERT_TIME,
+               a.ITEM_IDX,
+               a.DELETE_YN,
+               a.IMG,
+               b.ID
+        FROM REVIEW a
+                 INNER JOIN USERS b
+                            ON a.USER_IDX = b.IDX
+        WHERE a.DELETE_YN = 'N'
+          AND a.ITEM_IDX = #{itemIdx}
+    </select>
 </mapper>
 
 

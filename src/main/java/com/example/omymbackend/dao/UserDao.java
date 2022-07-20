@@ -30,9 +30,5 @@ public interface UserDao {
 
     User findUserPassword(String id, String email);
     
-    int postUser(User user);
-
-    User getById(String id);
-
     int updatePassword(String id, String password);
 }
