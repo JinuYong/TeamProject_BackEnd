@@ -2,26 +2,81 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.omymbackend.dao.ReviewDao">
-    <!--    // 아이템 idx로 리뷰를 불러옴-->
-    <!--    List<Review> findByItemIdx(Long itemIdx);-->
 
-    <select id="findByItemIdx" parameterType="long"
+<!--    <select id="findAll"-->
+<!--            resultType="com.example.omymbackend.model.Board">-->
+<!--        SELECT-->
+<!--            NO-->
+<!--            ,TITLE-->
+<!--            ,CONTENT-->
+<!--            ,WRITER-->
+<!--            ,DELETE_YN-->
+<!--            ,INSERT_TIME-->
+<!--            ,UPDATE_TIME-->
+<!--            ,DELETE_TIME-->
+<!--        FROM TB_FREE_YIH-->
+<!--        WHERE DELETE_YN = 'N'-->
+<!--    </select>-->
+
+    <select id="findByIdx" parameterType="long"
             resultType="com.example.omymbackend.model.Review">
-        SELECT a.IDX,
-               a.CONTENT,
-               a.USER_IDX,
-               a.RATING,
-               a.INSERT_TIME,
-               a.ITEM_IDX,
-               a.DELETE_YN,
-               a.IMG,
-               b.ID
-        FROM REVIEW a
-        INNER JOIN USERS b
-        ON a.USER_IDX = b.IDX
-        WHERE a.DELETE_YN = 'N'
-        AND a.ITEM_IDX = #{itemIdx}
+        SELECT
+            IDX
+            ,CONTENT
+            ,USER_IDX
+            ,RATING
+            ,INSERT_TIME
+            ,ITEM_IDX
+            ,DELETE_YN
+            ,IMG
+        FROM REVIEW
+        WHERE   IDX = #{idx}
     </select>
+
+    <insert id="insertReview"
+            parameterType="com.example.omymbackend.model.Review">
+        INSERT INTO REVIEW(
+             IDX
+            ,CONTENT
+            ,RATING
+            ,INSERT_TIME
+        ) VALUES (
+         SQ_REVIEW.NEXTVAL
+         ,#{content}
+         ,#{rating}
+         ,TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')
+        )
+        <selectKey keyProperty="idx" resultType="long" order="AFTER">
+            SELECT SQ_REVIEW.CURRVAL FROM DUAL
+        </selectKey>
+
+    </insert>
+
+<!--    <update id="updateReview"-->
+<!--            parameterType="com.example.omymbackend.model.Review">-->
+<!--        UPDATE REVIEW-->
+<!--        SET-->
+<!--            CONTENT = #{content}-->
+<!--        WHERE-->
+<!--            IDX = #{idx}-->
+<!--    </update>-->
+
+<!--    <update id="deleteBoard" parameterType="long">-->
+<!--        UPDATE TB_FREE_YIH-->
+<!--        SET-->
+<!--            DELETE_YN = 'Y'-->
+<!--           ,DELETE_TIME = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')-->
+<!--        WHERE-->
+<!--            NO = #{no}-->
+<!--    </update>-->
+
+<!--    <update id="deleteAll">-->
+<!--        UPDATE TB_FREE_YIH-->
+<!--        SET-->
+<!--            DELETE_YN = 'Y'-->
+<!--           ,DELETE_TIME = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')-->
+<!--    </update>-->
+
 </mapper>
 
 

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.omymbackend.dao.CancelDao">
+
+    <select id="findAll"
+            resultType="com.example.omymbackend.model.Cancel">
+        SELECT
+            NO
+            ,NAME
+            ,START_DATE
+            ,COUNT
+            ,PAYMENT_DATE
+            ,DELETE_YN
+            ,TOTALPRICE
+            ,UPDATE_YN
+        FROM USERITEMS
+        ORDER BY PAYMENT_DATE DESC
+    </select>
+
+<!--    <select id="findByNo" parameterType="long"-->
+<!--            resultType="com.example.omymbackend.model.Complain">-->
+<!--        SELECT-->
+<!--            NO-->
+<!--                ,TITLE-->
+<!--                ,CONTENT-->
+<!--                ,TARGET_PAGE-->
+<!--                ,WRITER-->
+<!--                ,DELETE_YN-->
+<!--                ,INSERT_TIME-->
+<!--                ,UPDATE_TIME-->
+<!--                ,DELETE_TIME-->
+<!--        FROM TB_COMPLAIN_PHG-->
+<!--        WHERE DELETE_YN = 'N'-->
+<!--        AND   NO = #{no}-->
+<!--    </select>-->
+
+<!--    <insert id="insertComplain"-->
+<!--            parameterType="com.example.omymbackend.model.Complain">-->
+<!--        INSERT INTO TB_COMPLAIN_PHG(-->
+<!--             NO-->
+<!--            ,TITLE-->
+<!--            ,CONTENT-->
+<!--            ,TARGET_PAGE-->
+<!--            ,WRITER-->
+<!--            ,INSERT_TIME-->
+<!--        ) VALUES (-->
+<!--         SQ_TB_COMPLAIN_PHG.NEXTVAL-->
+<!--         ,#{title}-->
+<!--         ,#{content}-->
+<!--         ,#{targetPage}-->
+<!--         ,#{writer}-->
+<!--         ,TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')-->
+<!--        )-->
+<!--        <selectKey keyProperty="no" resultType="long" order="AFTER">-->
+<!--            SELECT SQ_TB_COMPLAIN_PHG.CURRVAL FROM DUAL-->
+<!--        </selectKey>-->
+
+<!--    </insert>-->
+
+<!--    <update id="updateComplain"-->
+<!--            parameterType="com.example.omymbackend.model.Complain">-->
+<!--        UPDATE TB_COMPLAIN_PHG-->
+<!--        SET-->
+<!--            TITLE = #{title}-->
+<!--            ,CONTENT = #{content}-->
+<!--            ,TARGET_PAGE = #{targetPage}-->
+<!--            ,WRITER = #{writer}-->
+<!--            ,UPDATE_TIME = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')-->
+<!--        WHERE-->
+<!--            NO = #{no}-->
+<!--    </update>-->
+
+    <update id="deleteCancel" parameterType="long">
+        UPDATE USERITEMS
+        SET
+            DELETE_YN = 'Y'
+        WHERE
+            NO = #{no}
+    </update>
+
+<!--    int updateReview(Long no);-->
+<!--    Todo: 리뷰 작성 -->
+    <update id="updateReview" parameterType="long">
+        UPDATE USERITEMS
+        SET
+            UPDATE_YN = 'Y'
+        WHERE
+            NO = #{no}
+    </update>
+
+<!--    <update id="deleteAll">-->
+<!--        UPDATE TB_COMPLAIN_PHG-->
+<!--        SET-->
+<!--            DELETE_YN = 'Y'-->
+<!--           ,DELETE_TIME = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')-->
+<!--    </update>-->
+
+</mapper>
+
+
+
+
+
+
+
+

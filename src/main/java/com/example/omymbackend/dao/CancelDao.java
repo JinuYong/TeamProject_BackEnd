@@ -1,9 +1,9 @@
 package com.example.omymbackend.dao;
 
-import com.example.omymbackend.model.Review;
+import com.example.omymbackend.model.Cancel;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * packageName : com.example.customerspring.dao
@@ -19,21 +19,21 @@ import java.util.Optional;
 // mybatis 사용시 아래 어노테이션을 붙임
 //    인터페이스 구현 => .xml에서 함(스프링에 자동 객체 생성)
 @Mapper
-public interface ReviewDao {
-////    전체 회원 조회 메소드
-//    List<Complain> findAll();
+public interface CancelDao {
+//    전체 회원 조회 메소드
+    List<Cancel> findAll();
 
-//    id로 회원 조회 메소드
-    Optional<Review> findByIdx(Long idx);
+////    id로 회원 조회 메소드
+//    Optional<Complain> findByNo(Long no);
 //
-//    회원 생성 메소드
-    long insertReview(Review review);
-
-//    회원 수정 메소드
-//    long updateReview(Review review);
+////    회원 생성 메소드
+//    long insertComplain(Complain complain);
 //
-////    no로 회원 삭제 메소드
-//    int deleteComplain(Long no);
+////    no 리뷰 작성 메소드
+    int updateReview(Long no);
+//
+//    no로 회원 삭제 메소드
+    int deleteCancel(Long no);
 ////    전체 회원 삭제 메소드
 //    int deleteAll();
 }
