@@ -7,10 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * packageName : com.example.omymbackend.service
@@ -50,18 +54,18 @@ public class BoardServiceImpl implements BoardService {
         List<Board> boards = Collections.emptyList();
 
         // 제목이 Null 인지 체크
-        Optional<String> optionalCriteria
+        Optional<String> optionalCriteria2
                 = Optional.ofNullable(criteria.getId());
 
         // 페이징 처리 파트 시작
         // 테이블의 총 데이터 건수
         // Null 이면 "" 로 바꿈
-        int totalCount = boardDao.selectTotalCount(optionalCriteria.orElse(""));
+        int totalIdCount = boardDao.selectTotalIdCount(optionalCriteria2.orElse(""));
 
         // criteria : 페이징 처리 클래스 객체
-        criteria.setTotalItems(totalCount);
+        criteria.setTotalItems(totalIdCount);
         // 총 페이지 개수 : 테이블의 총 건수(totalCount) / 페이지당 출력할 데이터 개수(size)
-        criteria.setTotalPages(totalCount / criteria.getSize());
+        criteria.setTotalPages(totalIdCount / criteria.getSize());
         // 페이징 처리 파트 끝
 
         if(criteria.getId() == null){
@@ -82,25 +86,32 @@ public class BoardServiceImpl implements BoardService {
 
         // 제목이 Null 인지 체크
         Optional<String> optionalCriteria
-                = Optional.ofNullable(criteria.getTitle());
+                = Optional.ofNullable(criteria.getBoardTitle());
 
-        // 페이징 처리 파트 시작
-//         테이블의 총 데이터 건수
-        // Null 이면 "" 로 바꿈
-        int totalCount = boardDao.selectTotalCount(optionalCriteria.orElse(""));
+        // 1. title과 id 모두 null일 경우 findAll 실행
+        if(criteria.getBoardTitle() == null && criteria.getId() == null){
 
-        // criteria : 페이징 처리 클래스 객체
-        criteria.setTotalItems(totalCount);
-        // 총 페이지 개수 : 테이블의 총 건수(totalCount) / 페이지당 출력할 데이터 개수(size)
-        criteria.setTotalPages(totalCount / criteria.getSize());
-        // 페이징 처리 파트 끝
-
-        if(criteria.getTitle() == null){
-            // title(제목)이 없으면 전채검색을 함
             boards = boardDao.findAll(criteria);
-        } else {
-            // title(제목)이 있으면 제목 검색을 함
+
+            // 2. title값은 있고 id값이 없을 경우 findTitle 실행
+        } else if(criteria.getBoardTitle() != null && criteria.getId() == null){
+
+            int totalCount = boardDao.selectTotalCount(optionalCriteria.orElse(""));
+
+            criteria.setTotalItems(totalCount);
+            criteria.setTotalPages(totalCount / criteria.getSize());
+
             boards = boardDao.findByTitle(criteria);
+
+            // 3. id값은 있고 title값이 없을 경우 findId 실행
+        } else if(criteria.getId() != null && criteria.getBoardTitle() == null) {
+
+            int totalCount = boardDao.selectTotalIdCount(optionalCriteria.orElse(""));
+
+            criteria.setTotalItems(totalCount);
+            criteria.setTotalPages(totalCount / criteria.getSize());
+
+            boards = boardDao.findById(criteria);
         }
         return boards;
     }
@@ -150,5 +161,46 @@ public class BoardServiceImpl implements BoardService {
         queryResult = boardDao.deleteAll();
 
         return (queryResult >= 1) ? true : false;
+    }
+
+    @Override
+    public int viewCount(Long idx){
+        return boardDao.viewCount(idx);
+    }
+
+    @Override
+    public int viewReplyCount(Long idx) {
+        return boardDao.viewReplyCount(idx);
+    }
+
+    @Override
+    public int store(String boardTitle, String content, Long userIdx, MultipartFile file) throws IOException {
+        // 순수 이름 얻어짐
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+//        이미지 파일이 생성됨
+        Board board = new
+                Board(boardTitle, content, userIdx, fileName, file.getContentType(), file.getBytes());
+
+        // DB에 INSERT문 호출
+        return boardDao.saveFile(board);
+    }
+
+    @Override
+    public Optional<Board> getFile(String fileId) {
+        return boardDao.findByFileId(fileId);
+    }
+
+//    todo : 추가
+    @Override
+    public Optional<Board> getDetailFile(String idx) {
+        return boardDao.findDetail(idx);
+    }
+
+    @Override
+    public Stream<Board> getAllFile() {
+        Stream<Board> resBoard = boardDao.findAllFile().stream();
+
+        return resBoard;
     }
 }

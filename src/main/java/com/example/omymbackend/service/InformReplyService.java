@@ -1,6 +1,6 @@
 package com.example.omymbackend.service;
 
-import com.example.omymbackend.model.BoardReply;
+import com.example.omymbackend.model.InformReply;
 
 import java.util.List;
 
@@ -15,12 +15,11 @@ import java.util.List;
  * -----------------------------------------------------------
  * 7/12/22         macbook          최초 생성
  */
-public interface BoardReplyService {
+public interface InformReplyService {
 
-    List<BoardReply> findReplyByIdx(Long idx);
+    List<InformReply> findReplyByIdx(Long idx);
 
-    List<BoardReply> save(BoardReply boardReply);
+    List<InformReply> save(InformReply informReply);
 
-    boolean deleteBoardReply(long idx);
-
+    boolean deleteInformReply(long idx);
 }

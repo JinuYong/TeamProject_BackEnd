@@ -10,9 +10,10 @@
         FROM (
                  SELECT ROWNUM R,
                         B.IDX,
-                        B.TITLE,
+                        B.BOARD_TITLE,
                         U.ID,
-                        B.INSERT_TIME
+                        B.INSERT_TIME,
+                        B.COUNT
                  FROM BOARD B,
                       USERS U
                  WHERE B.DELETE_YN = 'N'
@@ -20,6 +21,7 @@
                  AND ROWNUM &lt; = (#{page} + 1) * #{size}
              )
         WHERE R > #{page} * #{size}
+        ORDER BY IDX DESC
     </select>
 
     <select id="findByTitle" parameterType="com.example.omymbackend.paging.Criteria"
@@ -28,13 +30,14 @@
         FROM (
                  SELECT ROWNUM R,
                         B.IDX,
-                        B.TITLE,
+                        B.BOARD_TITLE,
                         U.ID,
-                        B.INSERT_TIME
+                        B.INSERT_TIME,
+                        B.COUNT
                  FROM BOARD B,
                       USERS U
                  WHERE B.DELETE_YN = 'N'
-                   AND B.TITLE LIKE '%' || #{title} || '%'
+                   AND B.BOARD_TITLE LIKE '%' || #{boardTitle} || '%'
                    AND B.USER_IDX = U.IDX
                    AND ROWNUM &lt; = (#{page} + 1) * #{size}
              )
@@ -47,9 +50,10 @@
         FROM (
                  SELECT ROWNUM R,
                         B.IDX,
-                        B.TITLE,
+                        B.BOARD_TITLE,
                         U.ID,
-                        B.INSERT_TIME
+                        B.INSERT_TIME,
+                        B.COUNT
                  FROM BOARD B,
                       USERS U
                  WHERE B.DELETE_YN = 'N'
@@ -63,35 +67,53 @@
     <select id="selectTotalCount"
             parameterType="String"
             resultType="int">
-        SELECT COUNT(*)
-        FROM BOARD
-        WHERE DELETE_YN = 'N'
-          AND TITLE LIKE '%' || #{title} || '%'
+        SELECT COUNT(B.IDX)
+        FROM BOARD B,
+             USERS U
+        WHERE B.DELETE_YN = 'N'
+          AND B.USER_IDX = U.IDX
+          AND B.BOARD_TITLE LIKE '%' || #{boardTitle} || '%'
+    </select>
+
+    <select id="selectTotalIdCount"
+            parameterType="String"
+            resultType="int">
+        SELECT COUNT(U.ID)
+        FROM BOARD B,
+             USERS U
+        WHERE B.DELETE_YN = 'N'
+          AND B.USER_IDX = U.IDX
+          AND U.ID LIKE '%' || #{id} || '%'
     </select>
 
     <select id="findByIdx" parameterType="long"
             resultType="com.example.omymbackend.model.Board">
         SELECT
-            IDX,
-            TITLE,
-            CONTENT,
-            INSERT_TIME,
-            DELETE_YN,
-            USER_IDX
-        FROM BOARD
-        WHERE DELETE_YN = 'N'
-        AND IDX = #{idx}
+            B.IDX,
+            B.BOARD_TITLE,
+            B.CONTENT,
+            U.PROFILEURL,
+            B.INSERT_TIME,
+            B.DELETE_YN,
+            U.IDX,
+            U.ID,
+            B.COUNT
+        FROM BOARD B,
+             USERS U
+        WHERE B.DELETE_YN = 'N'
+        AND B.USER_IDX = U.IDX
+        AND B.IDX = #{idx}
     </select>
 
     <insert id="insertBoard" parameterType="com.example.omymbackend.model.Board">
         INSERT INTO BOARD (
                         IDX,
-                        TITLE,
+                        BOARD_TITLE,
                         CONTENT,
                         USER_IDX
                 ) VALUES (
                         SQ_BOARD.NEXTVAL,
-                        #{title},
+                        #{boardTitle},
                         #{content},
                         #{userIdx}
                 )
@@ -100,12 +122,18 @@
         </selectKey>
     </insert>
 
+    <update id="viewCount" parameterType="long">
+        UPDATE BOARD
+            SET
+                COUNT = COUNT + 1
+        WHERE IDX = #{idx}
+    </update>
+
     <update id="updateBoard" parameterType="com.example.omymbackend.model.Board">
         UPDATE BOARD
         SET
-            TITLE = #{title},
-            CONTENT = #{content},
-            USER_IDX = #{userIdx}
+            BOARD_TITLE = #{boardTitle},
+            CONTENT = #{content}
         WHERE IDX = #{idx}
     </update>
 
@@ -121,5 +149,103 @@
         SET
             DELETE_YN = 'Y'
     </update>
+
+    <select id="findByFileId" parameterType="String"
+            resultType="com.example.omymbackend.model.Board">
+        SELECT
+            B.IDX,
+            B.BOARD_TITLE,
+            B.CONTENT,
+            B.USER_IDX,
+            B.INSERT_TIME,
+            U.ID,
+            U.PROFILEURL,
+            B.FILE_ID,
+            B.FILE_NAME,
+            B.FILE_TYPE,
+            B.FILE_DATA
+        FROM
+            BOARD B,
+            USERS U
+        WHERE B.FILE_ID = #{fileId}
+          AND B.USER_IDX = U.IDX
+    </select>
+
+<!--    todo : findDetail 추가 -->
+    <select id="findDetail" parameterType="String"
+            resultType="com.example.omymbackend.model.Board">
+        SELECT
+            B.IDX,
+            B.BOARD_TITLE,
+            B.CONTENT,
+            B.USER_IDX,
+            B.INSERT_TIME,
+            U.ID,
+            U.PROFILEURL,
+            B.FILE_ID,
+            B.FILE_NAME,
+            B.FILE_TYPE,
+            B.FILE_DATA,
+            B.COUNT
+        FROM
+            BOARD B,
+            USERS U
+        WHERE B.IDX = #{idx}
+          AND B.USER_IDX = U.IDX
+    </select>
+
+    <select id="findAllFile"
+            resultType="com.example.omymbackend.model.Board">
+        SELECT
+            B.IDX,
+            B.BOARD_TITLE,
+            B.CONTENT,
+            B.USER_IDX,
+            B.INSERT_TIME,
+            U.ID,
+            U.PROFILEURL,
+            B.FILE_ID,
+            B.FILE_NAME,
+            B.FILE_TYPE,
+            B.FILE_DATA,
+            B.COUNT
+        FROM
+            BOARD B,
+            USERS U
+        WHERE B.USER_IDX = U.IDX
+    </select>
+
+    <insert id="saveFile"
+            parameterType="com.example.omymbackend.model.Board">
+        INSERT INTO BOARD (
+            IDX,
+            BOARD_TITLE,
+            CONTENT,
+            USER_IDX,
+            FILE_ID,
+            FILE_NAME,
+            FILE_TYPE,
+            FILE_DATA
+        ) VALUES (
+                     SQ_BOARD.NEXTVAL,
+                     #{boardTitle},
+                     #{content},
+                     #{userIdx},
+                     SQ_FILES.NEXTVAL,
+                     #{fileName},
+                     #{fileType},
+                     #{fileData}
+                 )
+    </insert>
+
+    <select id="viewReplyCount" parameterType="long"
+            resultType="int">
+        SELECT COUNT(*)
+        FROM BOARD_REPLY BR,
+             BOARD B
+        WHERE BR.DELETE_YN = 'N'
+          AND B.IDX = BR.BOARD_IDX
+          AND BR.BOARD_IDX = #{boardIdx}
+    </select>
 </mapper>
 

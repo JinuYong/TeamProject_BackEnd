@@ -1,7 +1,5 @@
 package com.example.omymbackend.dao;
 
-import com.example.omymbackend.model.Board;
-import com.example.omymbackend.paging.Criteria;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -32,10 +30,9 @@ public interface BoardDao {
     List<Board> findById(Criteria criteria);
 
     // 게시물 제목 데이터 건수를 세는 메소드
-    int selectTotalCount(String title);
+    int selectTotalCount(String boardTitle);
 
-    // 작성자 데이터 건수를 세는 메소드
-    // int selectTotalCount2(String id);
+    int selectTotalIdCount(String id);
 
     // Users 테이블의 idx
     Optional<Board> findByIdx(Long idx);
@@ -50,4 +47,20 @@ public interface BoardDao {
     int deleteBoard(Long idx);
 
     int deleteAll();
+
+    int viewCount(Long idx);
+
+    int viewReplyCount(Long idx);
+
+    //    id로 이미지를 찾는 메소드(1건)
+    Optional<Board> findByFileId(String fileId);
+
+//    todo: 추가
+    Optional<Board> findDetail(String idx);
+
+    //    모든 이미지 목록을 찾는 메소드(여러건)
+    List<Board> findAllFile();
+
+    //    업로드 이미지 저장 메소드
+    int saveFile(Board board);
 }

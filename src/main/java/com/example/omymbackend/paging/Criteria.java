@@ -28,7 +28,7 @@ public class Criteria {
     // 계산 공식 : 테이블 총 데이터 개수 / 1페이지 당 출력할 데이터 개수
     private Integer totalPages; // 총 페이지 수 (totalItems / size)
 
-    private String title; // 검색 제목
+    private String boardTitle; // 검색 제목
 
     // item 검색 키워드
     private String keyword;

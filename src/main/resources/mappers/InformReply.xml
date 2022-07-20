@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.omymbackend.dao.InformReplyDao">
+    <select id="findReplyByIdx" parameterType="long"
+            resultType="com.example.omymbackend.model.InformReply">
+        SELECT
+            IR.IDX,
+            IR.USER_IDX,
+            IR.CONTENT,
+            IR.INSERT_TIME,
+            IR.DELETE_YN,
+            IR.INFORM_IDX,
+            U.ID,
+            U.PROFILEURL
+        FROM INFORM_REPLY IR,
+             INFORM I,
+             USERS U
+        WHERE IR.DELETE_YN = 'N'
+          AND I.IDX = IR.INFORM_IDX
+          AND I.USER_IDX = U.IDX
+          AND I.IDX = #{idx}
+    </select>
+
+    <insert id="insertInformReply" parameterType="com.example.omymbackend.model.InformReply">
+        INSERT INTO INFORM_REPLY (
+                        IDX,
+                        CONTENT,
+                        USER_IDX,
+                        INFORM_IDX
+                ) VALUES (
+                        SQ_INFORM_REPLY.NEXTVAL,
+                        #{content},
+                        #{userIdx},
+                        #{informIdx}
+        )
+        <selectKey keyProperty="idx" resultType="long" order="AFTER">
+            SELECT SQ_INFORM_REPLY.CURRVAL FROM DUAL
+        </selectKey>
+    </insert>
+
+    <update id="updateInformReply" parameterType="com.example.omymbackend.model.InformReply">
+        UPDATE INFORM_REPLY
+        SET
+            CONTENT = #{content},
+            USER_IDX = #{userIdx}
+        WHERE IDX = #{idx}
+    </update>
+
+    <update id="deleteInformReply" parameterType="long">
+        UPDATE INFORM_REPLY
+        SET
+            DELETE_YN = 'Y'
+        WHERE IDX = #{idx}
+    </update>
+</mapper>
+

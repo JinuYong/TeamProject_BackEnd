@@ -4,42 +4,24 @@
         PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.omymbackend.dao.BoardReplyDao">
-    <select id="findAll" resultType="com.example.omymbackend.model.BoardReply">
+    <select id="findReplyByIdx" parameterType="long"
+            resultType="com.example.omymbackend.model.BoardReply">
         SELECT
             BR.IDX,
             BR.USER_IDX,
             BR.CONTENT,
             BR.INSERT_TIME,
             BR.DELETE_YN,
-            U.PROFILE,
             BR.BOARD_IDX,
-            U.ID
+            U.ID,
+            U.PROFILEURL
         FROM BOARD_REPLY BR,
              BOARD B,
              USERS U
         WHERE BR.DELETE_YN = 'N'
           AND B.IDX = BR.BOARD_IDX
           AND B.USER_IDX = U.IDX
-    </select>
-
-    <select id="findReplyByIdx" parameterType="long"
-            resultType="com.example.omymbackend.model.BoardReply">
-        SELECT
-            BR.IDX,
-            U.IDX,
-            BR.CONTENT,
-            BR.INSERT_TIME,
-            BR.DELETE_YN,
-            U.PROFILE,
-            B.IDX,
-            U.ID
-        FROM BOARD_REPLY BR,
-             BOARD B,
-             USERS U
-        WHERE BR.DELETE_YN = 'N'
-          AND B.IDX = BR.BOARD_IDX
-          AND B.USER_IDX = U.IDX
-          AND BR.IDX = #{idx}
+          AND B.IDX = #{idx}
     </select>
 
     <insert id="insertBoardReply" parameterType="com.example.omymbackend.model.BoardReply">
@@ -64,7 +46,7 @@
         SET
             CONTENT = #{content},
             USER_IDX = #{userIdx}
-        WHERE IDX = #{idx};
+        WHERE IDX = #{idx}
     </update>
 
     <update id="deleteBoardReply" parameterType="long">
