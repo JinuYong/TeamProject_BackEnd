@@ -18,16 +18,28 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Review {
+public class Cancel {
 //    Long(객체), long(일반자료형) => 8byte 정수형
-    private Long idx;
-    private String content;
-    private Long userIdx;
-    private Long rating;
-    private String insertTime;
-    private Long itemIdx;
+//    private Long no;
+//    private String title;
+//    private String content;
+//    private String targetPage;
+//    private String writer;
+//    private String deleteYn;
+//    private String insertTime;
+//    private String updateTime;
+//    private String deleteTime;
+
+    private Long no;
+    private String name;
+    private String startDate;
+    private String count;
+    private String paymentDate;
     private String deleteYn;
-    private byte[] img;
+    private String totalPrice;
+    private String updateYn;
+
+
 }
 
 
