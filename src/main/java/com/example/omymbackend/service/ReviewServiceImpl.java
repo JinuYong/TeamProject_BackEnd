@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -87,6 +88,11 @@ public class ReviewServiceImpl implements ReviewService {
 //
 //        return (queryResult >=1) ? true : false;
 //    }
+
+    public List<Review> findItemIdx(Long itemIdx) {
+        return reviewDao.findByItemIdx(itemIdx);
+    }
+
 }
 
 

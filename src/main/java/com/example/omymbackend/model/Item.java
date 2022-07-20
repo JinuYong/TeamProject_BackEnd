@@ -1,5 +1,6 @@
 package com.example.omymbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,12 +29,21 @@ public class Item {
         private int discountPer;
         private int userCount;
         private int itemView;
+
+        @JsonFormat(pattern="yyyy-MM-dd") // date format 바꾸는거!!!!!
         private Date itemDate;
         private int itemCount;
+
+        @JsonFormat(pattern="yyyy-MM-dd")
         private Date departDate;
         private Long userIdx;
         private String thumnail;
         private String area;
         private int viewCount;
         private int reviewCount;
+
+        // join
+        private byte[] data;
+        private String name;
+
 }

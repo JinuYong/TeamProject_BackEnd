@@ -1,3 +1,4 @@
+
 package com.example.omymbackend.message;
 
 import lombok.Getter;
@@ -26,14 +27,5 @@ public class ResponseMessage {
         this.message = message;
     }
 }
-
-
-
-
-
-
-
-
-
 
 

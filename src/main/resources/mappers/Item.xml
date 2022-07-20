@@ -3,63 +3,218 @@
 
 <mapper namespace="com.example.omymbackend.dao.ItemDao">
 
-<!--    Optional<Item> findItemByIdx(Long idx);-->
+    <!--    List<Item> findItemAll();-->
+    <select id="findItemAll" parameterType="com.example.omymbackend.model.Item"
+            resultType="com.example.omymbackend.model.Item">
+        SELECT a.IDX
+             , a.TITLE
+             , a.CONTENT
+             , a.INSERT_TIME
+             , a.UPDATE_TIME
+             , a.DELETE_TIME
+             , a.DELETE_YN
+             , a.PRICE
+             , a.DISCOUNT_PER
+             , a.USER_COUNT
+             , a.ITEM_VIEW
+             , a.ITEM_DATE
+             , a.ITEM_COUNT
+             , a.DEPART_DATE
+             , a.USER_IDX
+             , a.THUMNAIL
+             , a.AREA
+             , a.VIEW_COUNT
+             , a.REVIEW_COUNT
+             , b.data
+             , b.name
+        FROM ITEMS a
+                 LEFT JOIN FILES b
+                           ON a.IDX = b.ITEM_IDX
+        WHERE DELETE_YN = 'N'
+        ORDER BY IDX
+
+    </select>
+    <!--    SELECT IDX-->
+    <!--    , TITLE-->
+    <!--    , CONTENT-->
+    <!--    , INSERT_TIME-->
+    <!--    , UPDATE_TIME-->
+    <!--    , DELETE_TIME-->
+    <!--    , DELETE_YN-->
+    <!--    , PRICE-->
+    <!--    , DISCOUNT_PER-->
+    <!--    , USER_COUNT-->
+    <!--    , ITEM_VIEW-->
+    <!--    , ITEM_DATE-->
+    <!--    , ITEM_COUNT-->
+    <!--    , DEPART_DATE-->
+    <!--    , USER_IDX-->
+    <!--    , THUMNAIL-->
+    <!--    , AREA-->
+    <!--    , VIEW_COUNT-->
+    <!--    , REVIEW_COUNT-->
+    <!--    FROM ITEMS-->
+    <!--    WHERE DELETE_YN = 'N'-->
+
+    <!--    Optional<Item> findItemByIdx(Long idx);-->
     <select id="findItemByIdx" parameterType="Long"
             resultType="com.example.omymbackend.model.Item">
-        SELECT
-             IDX
-            ,TITLE
-            ,CONTENT
-            ,INSERT_TIME
-            ,UPDATE_TIME
-            ,DELETE_TIME
-            ,DELETE_YN
-            ,PRICE
-            ,DISCOUNT_PER
-            ,USER_COUNT
-            ,ITEM_VIEW
-            ,ITEM_DATE
-            ,ITEM_COUNT
-            ,DEPART_DATE
-            ,USER_IDX
-            ,THUMNAIL
-            ,AREA
-            ,VIEW_COUNT
-            ,REVIEW_COUNT
-        FROM
-            ITEMS
+        SELECT a.IDX
+             , a.TITLE
+             , a.CONTENT
+             , a.INSERT_TIME
+             , a.UPDATE_TIME
+             , a.DELETE_TIME
+             , a.DELETE_YN
+             , a.PRICE
+             , a.DISCOUNT_PER
+             , a.USER_COUNT
+             , a.ITEM_VIEW
+             , a.ITEM_DATE
+             , a.ITEM_COUNT
+             , a.DEPART_DATE
+             , a.USER_IDX
+             , a.THUMNAIL
+             , a.AREA
+             , a.VIEW_COUNT
+             , a.REVIEW_COUNT
+             , b.data
+             , b.name
+        FROM ITEMS a
+                 LEFT JOIN FILES b
+                           ON a.IDX = b.ITEM_IDX
         WHERE IDX = #{idx}
-        AND DELETE_YN = 'N'
+          AND DELETE_YN = 'N'
+        ORDER BY IDX
     </select>
+
 
     <select id="findItemByArea" parameterType="String"
             resultType="com.example.omymbackend.model.Item">
-        SELECT
-              IDX
-             ,TITLE
-             ,CONTENT
-             ,INSERT_TIME
-             ,UPDATE_TIME
-             ,DELETE_TIME
-             ,DELETE_YN
-             ,PRICE
-             ,DISCOUNT_PER
-             ,USER_COUNT
-             ,ITEM_VIEW
-             ,ITEM_DATE
-             ,ITEM_COUNT
-             ,DEPART_DATE
-             ,USER_IDX
-             ,THUMNAIL
-             ,AREA
-             ,VIEW_COUNT
-             ,REVIEW_COUNT
-        FROM
-            ITEMS
+        SELECT a.IDX
+             , a.TITLE
+             , a.CONTENT
+             , a.INSERT_TIME
+             , a.UPDATE_TIME
+             , a.DELETE_TIME
+             , a.DELETE_YN
+             , a.PRICE
+             , a.DISCOUNT_PER
+             , a.USER_COUNT
+             , a.ITEM_VIEW
+             , a.ITEM_DATE
+             , a.ITEM_COUNT
+             , a.DEPART_DATE
+             , a.USER_IDX
+             , a.THUMNAIL
+             , a.AREA
+             , a.VIEW_COUNT
+             , a.REVIEW_COUNT
+             , b.data
+             , b.name
+        FROM ITEMS a
+                 LEFT JOIN FILES b
+                           ON a.IDX = b.ITEM_IDX
+        WHERE DELETE_YN = 'N'
+        AND AREA = #{area}
+        ORDER BY IDX
+    </select>
+<!--    SELECT IDX-->
+<!--    , TITLE-->
+<!--    , CONTENT-->
+<!--    , INSERT_TIME-->
+<!--    , UPDATE_TIME-->
+<!--    , DELETE_TIME-->
+<!--    , DELETE_YN-->
+<!--    , PRICE-->
+<!--    , DISCOUNT_PER-->
+<!--    , USER_COUNT-->
+<!--    , ITEM_VIEW-->
+<!--    , ITEM_DATE-->
+<!--    , ITEM_COUNT-->
+<!--    , DEPART_DATE-->
+<!--    , USER_IDX-->
+<!--    , THUMNAIL-->
+<!--    , AREA-->
+<!--    , VIEW_COUNT-->
+<!--    , REVIEW_COUNT-->
+<!--    FROM ITEMS-->
+<!--    WHERE AREA = #{area}-->
+<!--    AND DELETE_YN = 'N'-->
+
+    <select id="findSearchData" parameterType="String"
+            resultType="com.example.omymbackend.model.Item">
+        SELECT IDX
+             , TITLE
+             , CONTENT
+             , INSERT_TIME
+             , UPDATE_TIME
+             , DELETE_TIME
+             , DELETE_YN
+             , PRICE
+             , DISCOUNT_PER
+             , USER_COUNT
+             , ITEM_VIEW
+             , ITEM_DATE
+             , ITEM_COUNT
+             , DEPART_DATE
+             , USER_IDX
+             , THUMNAIL
+             , AREA
+             , VIEW_COUNT
+             , REVIEW_COUNT
+        FROM ITEMS
         WHERE AREA = #{area}
+          AND ITEM_DATE > #{itemDate}
           AND DELETE_YN = 'N'
     </select>
 
+    <select id="selectTotalCount"
+            parameterType="String"
+            resultType="int">
+        SELECT COUNT(*)
+        FROM ITEMS
+        WHERE DELETE_YN = 'N'
+          AND TITLE LIKE '%' || #{keyword} || '%'
+    </select>
+
+    <!--    List<Item> findNavSearch(String keyword);-->
+    <select id="findNavSearch"
+            parameterType="com.example.omymbackend.paging.Criteria"
+            resultType="com.example.omymbackend.model.Item">
+        SELECT
+            a.IDX
+             , a.TITLE
+             , a.CONTENT
+             , a.INSERT_TIME
+             , a.UPDATE_TIME
+             , a.DELETE_TIME
+             , a.DELETE_YN
+             , a.PRICE
+             , a.DISCOUNT_PER
+             , a.USER_COUNT
+             , a.ITEM_VIEW
+             , a.ITEM_DATE
+             , a.ITEM_COUNT
+             , a.DEPART_DATE
+             , a.USER_IDX
+             , a.THUMNAIL
+             , a.AREA
+             , a.VIEW_COUNT
+             , a.REVIEW_COUNT
+             , b.DATA
+             , b.NAME
+        FROM (SELECT ROWNUM R, IT.*
+              FROM ITEMS IT
+              WHERE DELETE_YN = 'N'
+                AND TITLE LIKE '%' || #{keyword} || '%'
+                AND ROWNUM &lt;= (#{page} + 1) * #{size}) a
+                LEFT JOIN FILES b
+        ON a.IDX = b.ITEM_IDX
+        WHERE R > #{page} * #{size}
+        ORDER BY ITEM_DATE DESC
+
+    </select>
 </mapper>
 
 
