@@ -106,7 +106,7 @@ public class FileDBController {
             //        URL 생성 : <img src="http://localhost:9000/api/files/1">
             String fileDownloadURL = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/api/files/")
+                    .path("/api/filess/")
                     .path(dbFile.getId())
                     .toUriString();
 
