@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.omymbackend.dao.InformDao">
+    <select id="findAll" resultType="com.example.omymbackend.model.Inform">
+        SELECT
+            I.IDX,
+            I.TITLE,
+            I.CONTENT,
+            I.INSERT_TIME,
+            I.DELETE_YN,
+            U.ID,
+            I.USER_IDX,
+            I.COUNT,
+            I.FILE_ID,
+            I.FILE_NAME,
+            I.FILE_TYPE,
+            I.FILE_DATA
+        FROM INFORM I,
+             USERS U
+        WHERE I.DELETE_YN = 'N'
+        AND I.USER_IDX = U.IDX
+    </select>
+
+    <select id="findInformByTitle" parameterType="String"
+            resultType="com.example.omymbackend.model.Inform">
+        SELECT
+            I.IDX,
+            I.TITLE,
+            I.CONTENT,
+            I.INSERT_TIME,
+            I.DELETE_YN,
+            U.IDX,
+            U.ID,
+            I.COUNT,
+            I.FILE_ID,
+            I.FILE_NAME,
+            I.FILE_TYPE,
+            I.FILE_DATA
+        FROM INFORM I,
+             USERS U
+        WHERE I.DELETE_YN = 'N'
+          AND I.USER_IDX = U.IDX
+          AND I.TITLE = #{title}
+    </select>
+
+    <select id="findInformByIdx" parameterType="long"
+            resultType="com.example.omymbackend.model.Inform">
+        SELECT
+            I.IDX,
+            I.TITLE,
+            I.CONTENT,
+            I.INSERT_TIME,
+            I.DELETE_YN,
+            U.ID,
+            U.IDX,
+            I.COUNT
+        FROM INFORM I,
+             USERS U
+        WHERE I.DELETE_YN = 'N'
+        AND I.USER_IDX = U.IDX
+        AND I.IDX = #{idx}
+    </select>
+
+    <insert id="insertInform"
+            parameterType="com.example.omymbackend.model.Inform">
+        INSERT INTO INFORM (
+                IDX,
+                TITLE,
+                CONTENT,
+                USER_IDX
+        ) VALUES (
+                SQ_INFORM.NEXTVAL,
+                #{title},
+                #{content},
+                #{userIdx}
+
+        )
+        <selectKey keyProperty="idx" resultType="long" order="AFTER">
+            SELECT SQ_INFORM.CURRVAL FROM DUAL
+        </selectKey>
+    </insert>
+
+    <select id="updateInform"
+            parameterType="com.example.omymbackend.model.Inform">
+        UPDATE INFORM
+        SET
+            TITLE = #{title},
+            CONTENT = #{content}
+        WHERE IDX = #{idx}
+    </select>
+
+    <update id="deleteInform" parameterType="long">
+        UPDATE INFORM
+        SET
+            DELETE_YN = 'Y'
+        WHERE IDX = #{idx}
+    </update>
+
+    <update id="viewCount" parameterType="long">
+        UPDATE INFORM
+        SET
+            COUNT = COUNT + 1
+        WHERE IDX = #{idx}
+    </update>
+
+    <select id="findByFileId" parameterType="String"
+            resultType="com.example.omymbackend.model.Inform">
+        SELECT
+            I.IDX,
+            I.TITLE,
+            I.CONTENT,
+            I.USER_IDX,
+            I.INSERT_TIME,
+            U.ID,
+            U.PROFILEURL,
+            I.FILE_ID,
+            I.FILE_NAME,
+            I.FILE_TYPE,
+            I.FILE_DATA
+        FROM
+            INFORM I,
+            USERS U
+        WHERE I.FILE_ID = #{fileId}
+          AND I.USER_IDX = U.IDX
+    </select>
+
+    <!--    todo : findDetail 추가 -->
+    <select id="findInformDetail" parameterType="String"
+            resultType="com.example.omymbackend.model.Inform">
+        SELECT
+            I.IDX,
+            I.TITLE,
+            I.CONTENT,
+            I.USER_IDX,
+            I.INSERT_TIME,
+            U.ID,
+            U.PROFILEURL,
+            I.FILE_ID,
+            I.FILE_NAME,
+            I.FILE_TYPE,
+            I.FILE_DATA,
+            I.COUNT
+        FROM
+            INFORM I,
+            USERS U
+        WHERE I.IDX = #{idx}
+          AND I.USER_IDX = U.IDX
+    </select>
+
+    <select id="findAllFile"
+            resultType="com.example.omymbackend.model.Inform">
+        SELECT
+            I.IDX,
+            I.TITLE,
+            I.CONTENT,
+            I.USER_IDX,
+            I.INSERT_TIME,
+            U.ID,
+            U.PROFILEURL,
+            I.FILE_ID,
+            I.FILE_NAME,
+            I.FILE_TYPE,
+            I.FILE_DATA,
+            I.COUNT
+        FROM
+            INFORM I,
+            USERS U
+        WHERE I.USER_IDX = U.IDX
+    </select>
+
+    <select id="showTopThree"
+            resultType="com.example.omymbackend.model.Inform">
+        SELECT
+        I.IDX,
+        I.TITLE,
+        I.CONTENT,
+        I.USER_IDX,
+        I.INSERT_TIME,
+        U.ID,
+        U.PROFILEURL,
+        I.FILE_ID,
+        I.FILE_NAME,
+        I.FILE_TYPE,
+        I.FILE_DATA,
+        I.COUNT
+        FROM INFORM I,
+        USERS U
+        WHERE ROWNUM &lt;= 3
+        AND I.DELETE_YN = 'N'
+        AND I.USER_IDX = U.IDX
+        ORDER BY COUNT DESC
+    </select>
+
+    <insert id="saveFile"
+            parameterType="com.example.omymbackend.model.Inform">
+        INSERT INTO INFORM (
+            IDX,
+            TITLE,
+            CONTENT,
+            USER_IDX,
+            FILE_ID,
+            FILE_NAME,
+            FILE_TYPE,
+            FILE_DATA
+        ) VALUES (
+                     SQ_INFORM.NEXTVAL,
+                     #{title},
+                     #{content},
+                     #{userIdx},
+                     SQ_INFORM_FILES.NEXTVAL,
+                     #{fileName},
+                     #{fileType},
+                     #{fileData}
+                 )
+    </insert>
+
+    <select id="viewReplyCount" parameterType="long"
+            resultType="int">
+        SELECT COUNT(*)
+        FROM INFORM_REPLY IR,
+             INFORM I
+        WHERE IR.DELETE_YN = 'N'
+          AND I.IDX = IR.INFORM_IDX
+          AND IR.INFORM_IDX = #{boardIdx}
+    </select>
+</mapper>
+

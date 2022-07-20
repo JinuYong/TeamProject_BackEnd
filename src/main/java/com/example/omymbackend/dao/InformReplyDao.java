@@ -1,5 +1,6 @@
 package com.example.omymbackend.dao;
 
+import com.example.omymbackend.model.InformReply;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,17 +17,16 @@ import java.util.List;
  * 7/12/22         macbook          최초 생성
  */
 @Mapper
-public interface BoardReplyDao {
+public interface InformReplyDao {
 
-    List<BoardReply> findReplyByIdx(Long idx);
+    List<InformReply> findReplyByIdx(Long idx);
 
     // CRUD - Create (insert)
-    int insertBoardReply(BoardReply boardReply);
+    int insertInformReply(InformReply informReply);
 
     // CRUD - Update
-    int updateBoardReply(BoardReply boardReply);
+    int updateInformReply(InformReply informReply);
 
     // CRUD - Delete
-    int deleteBoardReply(Long idx);
-
+    int deleteInformReply(Long idx);
 }
