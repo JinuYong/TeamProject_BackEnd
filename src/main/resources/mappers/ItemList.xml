@@ -4,13 +4,29 @@
 <mapper namespace="com.example.omymbackend.dao.ItemListDao">
 
     <select id="findAll" resultType="com.example.omymbackend.model.ItemList">
-        SELECT IDX,
-               TITLE,
-               CONTENT,
-               AREA,
-               PRICE,
-               DISCOUNT_PER
-        FROM ITEMS
+        SELECT a.IDX
+             , a.TITLE
+             , a.CONTENT
+             , a.INSERT_TIME
+             , a.UPDATE_TIME
+             , a.DELETE_TIME
+             , a.DELETE_YN
+             , a.PRICE
+             , a.DISCOUNT_PER
+             , a.USER_COUNT
+             , a.ITEM_VIEW
+             , a.ITEM_DATE
+             , a.ITEM_COUNT
+             , a.DEPART_DATE
+             , a.USER_IDX
+             , a.THUMNAIL
+             , a.AREA
+             , a.VIEW_COUNT
+             , a.REVIEW_COUNT
+             , b.data
+        FROM ITEMS a
+                 LEFT JOIN FILES b
+                           ON a.IDX = b.ITEM_IDX
         WHERE DELETE_YN = 'N'
     </select>
 
@@ -24,7 +40,7 @@
                DISCOUNT_PER
         FROM ITEMS
         WHERE DELETE_YN = 'N'
-        AND AREA = #{area}
+          AND AREA = #{area}
     </select>
 
     <select id="findByIdx" resultType="com.example.omymbackend.model.ItemList"

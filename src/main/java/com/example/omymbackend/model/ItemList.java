@@ -28,4 +28,8 @@ public class ItemList {
     private String area; // 지역 카테고리 (sql 타입 = VARCHAR2)
     private int viewCount; // 상품조회 카운트 (sql 타입 = NUMBER)
     private int reviewCount; // 리뷰조회 카운트 (sql 타입 = NUMBER)
+
+    // join
+    private byte[] data;
+    private String name;
 }
