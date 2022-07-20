@@ -1,5 +1,7 @@
 package com.example.omymbackend.controller;
 
+import com.example.omymbackend.model.BoardReply;
+import com.example.omymbackend.service.BoardReplyServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

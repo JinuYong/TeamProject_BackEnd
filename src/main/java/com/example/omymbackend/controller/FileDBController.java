@@ -48,7 +48,7 @@ public class FileDBController {
 //    Vue 에서 전송하는 형태(post)
 //    @RequestParam : /upload
 //    params = file
-    @PostMapping("/upload")
+    @PostMapping("/uploads")
     public ResponseEntity<ResponseMessage>
             uploadFile(@RequestParam("itemIdx") long itemIdx,
                     @RequestParam(value = "file") MultipartFile file) {
@@ -81,7 +81,7 @@ public class FileDBController {
 
 //    파일 id를 조회해서 다운로드 하는 메뉴
 //    @PathVariable : /files/{id} 일경우 사용하는 어노테이션
-    @GetMapping("/files/{id}")
+    @GetMapping("/filess/{id}")
     public ResponseEntity<byte[]>
             getFile(@PathVariable String id) {
 //        itemIdx로 조회하는 DB Select 문 호출
@@ -98,7 +98,7 @@ public class FileDBController {
                 .body(fileDB.getData());
     }
 
-    @GetMapping("/files")
+    @GetMapping("/filess")
     public ResponseEntity<List<ResponseFile>> getItemFiles() {
         List<ResponseFile> files = fileDBService.getAllFile().map( dbFile -> {
             //        첨부파일을 다운로드할 위치 URL 만들어야 함
@@ -106,7 +106,7 @@ public class FileDBController {
             //        URL 생성 : <img src="http://localhost:9000/api/files/1">
             String fileDownloadURL = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/api/files/")
+                    .path("/api/filess/")
                     .path(dbFile.getId())
                     .toUriString();
 

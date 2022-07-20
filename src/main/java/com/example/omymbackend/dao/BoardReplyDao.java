@@ -1,5 +1,6 @@
 package com.example.omymbackend.dao;
 
+import com.example.omymbackend.model.BoardReply;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
