@@ -1,6 +1,6 @@
 package com.example.omymbackend.service;
 
-import com.example.omymbackend.model.User;
+import com.example.omymbackend.model.SignIn;
 
 import java.util.Optional;
 
@@ -16,5 +16,5 @@ import java.util.Optional;
  * 2022/07/07         gim-yeong-geun          최초 생성
  */
 public interface UserService {
-    Optional<User> findByUserIdx(Long userIdx);
+    Optional<SignIn> findByUserIdx(Long userIdx);
 }

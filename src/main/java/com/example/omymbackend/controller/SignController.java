@@ -2,7 +2,7 @@ package com.example.omymbackend.controller;
 
 import com.example.omymbackend.model.JwtResponse;
 import com.example.omymbackend.model.MessageResponse;
-import com.example.omymbackend.model.User;
+import com.example.omymbackend.model.SignIn;
 import com.example.omymbackend.security.JwtTokenProvider;
 import com.example.omymbackend.service.CustomUserDetailService;
 import org.slf4j.Logger;
@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -33,6 +30,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(value = "*", allowedHeaders = "*")
 public class SignController {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -52,10 +50,14 @@ public class SignController {
 
 //    로그인 메뉴 (sign in / log in)
     @PostMapping(value = "/signin")
-    public ResponseEntity<?> signInUser(@RequestBody User user) {
+    public ResponseEntity<?> signInUser(@RequestBody SignIn user) {
+        logger.info("user = {}", user);
 //        임시 유저 객체를 정의 (이름으로 DB 유저정보 조회)
-        User result = (User)customUserDetailService
-                .findByName(user.getId());
+        SignIn result = customUserDetailService
+                .findByName(user.getUsername());
+        if (result != null) {
+            result.setUsername(user.getUsername());
+        }
 //        암호 맞는지 확인 절차
 //        user.getPassword() : 암호화 전 패스워드
 //        result.getPassword() : DB에 저장된 패스워드(암호화가 된 패스워드)
@@ -87,11 +89,11 @@ public class SignController {
                 .collect(Collectors.toList());
 
         logger.info("signUpRequest roles {}", roles);
-
+        logger.info("jwt = {}, resultUser = {}", jwt, result);
 //        2) 웹토큰(JWT) + 유저정보 Vue로 전송
         return ResponseEntity.ok(new JwtResponse(jwt,
                 result.getIdx(),
-                result.getId(),
+                result.getUsername(),
                 result.getEmail(),
                 roles));
     }
@@ -99,9 +101,9 @@ public class SignController {
 //    회원가입 메뉴 (sign up)
     @PostMapping(value = "/signup")
     public ResponseEntity<?> addUser(HttpServletRequest request,
-                                        @RequestBody User signupUser) {
+                                        @RequestBody SignIn signupUser) {
 //        임시 유저 객체 정의
-        User user = signupUser;
+        SignIn user = signupUser;
 //        유저에 role(역할) : ROLE_USER, 이 사이트는 롤이 1개임
         user.setRoles("ROLE_USER");
 //        signupUser.getPassword() : 암호화되기전 패스워드

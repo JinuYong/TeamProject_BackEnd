@@ -1,25 +1,17 @@
 package com.example.omymbackend.controller;
 
+import com.example.omymbackend.model.FileTest;
 import lombok.extern.slf4j.Slf4j;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * packageName : com.example.omymbackend.controller
@@ -49,5 +41,11 @@ public class ImgController {
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(resource.getInputStream(), response.getOutputStream());
 
+    }
+
+    @PostMapping("/image/test")
+    public void uploadTest(FileTest fileTest, @RequestParam(required = false, value = "file") MultipartFile file) {
+        log.info("filetest = {}, file = {}", fileTest, file);
+        log.info("title = {}, content = {}", fileTest.getTitle(), fileTest.getContent());
     }
 }

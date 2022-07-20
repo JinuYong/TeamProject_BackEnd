@@ -126,4 +126,20 @@ public class SignupServiceImpl implements SignupService{
         log.info("업데이트 결과 = {}", boolResult);
         return boolResult;
     }
+
+    public User FindUserId(String name, String email) {
+        log.info("username in service = {}", name);
+        User user = userDAO.findUserId(name, email);
+        return user;
+    }
+
+    @Override
+    public User FindUserPassword(String id, String email) {
+        User user = userDAO.findUserPassword(id, email);
+        log.info("user in service = {}", user);
+        if (user.getId().equals(id) && user.getEmail().equals(email)) {
+            return user;
+        }
+        else return null;
+    }
 }

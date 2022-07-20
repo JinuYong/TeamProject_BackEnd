@@ -11,9 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * packageName : com.example.omymbackend.controller
@@ -126,6 +124,44 @@ public class SignUpController {
             }
             return ResponseEntity.ok(result);
         } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/find/id")
+    public ResponseEntity FindUserId(@RequestBody User user) {
+        log.info("user = {}", user);
+
+        try {
+            log.info("username = {}", user.getName());
+            User result = signupService.FindUserId(user.getName(), user.getEmail());
+            if (result == null) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(result.getId());
+        }
+        catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/find/password")
+    public ResponseEntity FindUserPassword(@RequestBody User user) {
+        log.info("user = {}", user);
+
+        try {
+            User result = signupService.FindUserPassword(user.getId(), user.getEmail());
+            log.info("result = {}", result);
+            if (result != null) {
+                return new ResponseEntity(result, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+            }
+        }
+        catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }
