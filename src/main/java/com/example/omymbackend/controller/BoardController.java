@@ -2,6 +2,9 @@ package com.example.omymbackend.controller;
 
 import com.example.omymbackend.message.BoardResponseFile;
 import com.example.omymbackend.message.ResponseMessage;
+import com.example.omymbackend.model.Board;
+import com.example.omymbackend.paging.Criteria;
+import com.example.omymbackend.service.BoardServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
