@@ -154,13 +154,17 @@ public class SignUpController {
             User result = signupService.FindUserPassword(user.getId(), user.getEmail());
             log.info("result = {}", result);
             if (result != null) {
+                log.info("result != null");
                 return new ResponseEntity(result, HttpStatus.OK);
             }
             else {
-                return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+                log.info("result == null");
+                boolean bool = false;
+                return new ResponseEntity(bool, HttpStatus.NO_CONTENT);
             }
         }
         catch (Exception e) {
+            log.info("catch");
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }

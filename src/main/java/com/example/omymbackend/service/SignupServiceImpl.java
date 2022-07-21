@@ -137,9 +137,10 @@ public class SignupServiceImpl implements SignupService{
     public User FindUserPassword(String id, String email) {
         User user = userDAO.findUserPassword(id, email);
         log.info("user in service = {}", user);
-        if (user.getId().equals(id) && user.getEmail().equals(email)) {
-            return user;
-        }
-        else return null;
+//        if (user.getId().equals(id) && user.getEmail().equals(email)) {
+//            return user;
+//        }
+//        else return null;
+        return user;
     }
 }
