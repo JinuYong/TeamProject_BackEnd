@@ -25,7 +25,7 @@ public class Review {
     private String content;
     private Long userIdx;
     private Long rating;
-    @JsonFormat(pattern="yyyy-MM-dd")
+//    @JsonFormat(pattern="yyyy-MM-dd")
     private String insertTime;
     private Long itemIdx;
     private String deleteYn;
