@@ -92,12 +92,12 @@
         WHERE IDX = #{idx}
     </select>
 
-    <update id="deleteInform" parameterType="long">
+    <delete id="deleteInform" parameterType="long">
         UPDATE INFORM
         SET
             DELETE_YN = 'Y'
         WHERE IDX = #{idx}
-    </update>
+    </delete>
 
     <update id="viewCount" parameterType="long">
         UPDATE INFORM
@@ -147,7 +147,8 @@
             INFORM I,
             USERS U
         WHERE I.IDX = #{idx}
-          AND I.USER_IDX = U.IDX
+        AND I.USER_IDX = U.IDX
+        AND I.DELETE_YN = 'N'
     </select>
 
     <select id="findAllFile"
@@ -169,29 +170,19 @@
             INFORM I,
             USERS U
         WHERE I.USER_IDX = U.IDX
+        AND I.DELETE_YN = 'N'
     </select>
 
     <select id="showTopThree"
             resultType="com.example.omymbackend.model.Inform">
-        SELECT
-        I.IDX,
-        I.TITLE,
-        I.CONTENT,
-        I.USER_IDX,
-        I.INSERT_TIME,
-        U.ID,
-        U.PROFILEURL,
-        I.FILE_ID,
-        I.FILE_NAME,
-        I.FILE_TYPE,
-        I.FILE_DATA,
-        I.COUNT
-        FROM INFORM I,
-        USERS U
-        WHERE ROWNUM &lt;= 3
-        AND I.DELETE_YN = 'N'
-        AND I.USER_IDX = U.IDX
+        SELECT *
+        FROM (
+        SELECT *
+        FROM INFORM
         ORDER BY COUNT DESC
+        )
+        WHERE ROWNUM &lt;= 3
+        AND DELETE_YN = 'N'
     </select>
 
     <insert id="saveFile"
