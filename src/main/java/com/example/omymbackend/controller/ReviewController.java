@@ -58,7 +58,7 @@ public class ReviewController {
     @PostMapping("/mypage")
     public ResponseEntity<Object>
     createBoard(@RequestBody Review review) {
-
+        logger.info("review {}", review);
 //        save 리턴값 Optional<Customer> => save(customer).get() 객체를 꺼냄
         Review savedReview = reviewService.save(review).get();
         logger.info("savedReview {}", savedReview);
