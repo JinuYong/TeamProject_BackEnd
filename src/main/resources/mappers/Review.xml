@@ -35,13 +35,13 @@
 
     <insert id="insertReview"
             parameterType="com.example.omymbackend.model.Review">
-        INSERT INTO REVIEW(
+        INSERT INTO REVIEW_TEST(
              IDX
             ,CONTENT
             ,RATING
             ,INSERT_TIME
         ) VALUES (
-         SQ_REVIEW.NEXTVAL
+         SQ_REVIEW_TEST.NEXTVAL
          ,#{content}
          ,#{rating}
          ,TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')
